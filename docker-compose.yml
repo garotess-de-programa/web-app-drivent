@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 services:
   drivent-production:
     build:
@@ -6,10 +6,10 @@ services:
       dockerfile: Dockerfile
     container_name: drivent-front
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-size: "10m"
-        max-file: "5"
+        max-size: '10m'
+        max-file: '5'
     working_dir: /usr/src/drivent
     command: npm run build
     environment:
