@@ -26,7 +26,6 @@ export default function HotelPage() {
     return <Page error>{hotelsError.message}</Page>;
   }
 
-  // fluxo normal
   return (
     <Page>
       <S.SubtitleTypography variant="h5">Primeiro, escolha seu hotel</S.SubtitleTypography>
