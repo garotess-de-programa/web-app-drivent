@@ -5,9 +5,6 @@ export default function Card() {
   return (
     <>
       <TicketResume>
-
-
-
       </TicketResume>
     </>
   );

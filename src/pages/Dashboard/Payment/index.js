@@ -2,10 +2,10 @@ import TicketTypeSelection from '../../../components/TicketTypeSelection';
 import * as S from '../../../components/Typography';
 import PageUnavailable from '../../../components/Page/Unavailable';
 import useCheckEnrollment from '../../../hooks/api/useTicket';
+import PaymentSession from '../../../components/Payment/PaymentSession';
 
 export default function Payment() {
   /* const { userEnrollment } = useCheckEnrollment();
-  
   if(userEnrollment.loading === true)
     return(
       <>
@@ -28,8 +28,7 @@ export default function Payment() {
           </S.StyledTypography>
         </PageUnavailable>
       </>
-    );  */
-  
+    );  */  
   return <TicketTypeSelection />;
-    // return <PaymentSession />;
+  //return <PaymentSession />;
 }
