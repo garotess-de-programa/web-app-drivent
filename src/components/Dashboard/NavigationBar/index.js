@@ -23,14 +23,14 @@ export default function NavigationBar() {
       </Link>
 
       <Link to="/dashboard/payment">
-        <NavigationButton active={isActive('/dashboard/paymen')}>
+        <NavigationButton active={isActive('/dashboard/payment')}>
           <FaMoneyBill />
           <span>Pagamento</span>
         </NavigationButton>
       </Link>
 
       <Link to="/dashboard/hotel">
-        <NavigationButton active={isActive('/dashboard/hote')}>
+        <NavigationButton active={isActive('/dashboard/hotel')}>
           <FaBed />
           <span>Hotel</span>
         </NavigationButton>
