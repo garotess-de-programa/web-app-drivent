@@ -1,36 +1,43 @@
 import * as S from '../../../components/Typography';
 import useHotel from '../../../hooks/api/useHotel';
-import PageUnavailable from '../../../components/Page/Unavailable';
+import ContentUnavailable from '../../../components/Page/Unavailable';
 
-export default function Hotel() {
-  const { hotels } = useHotel();
-  // useHook que verifica se tem inscrição
-  // criar um useHook geral e um para verificar inscrição e pagamento
-  // return <Component Alert>
-
-  if (!hotels)
-    return (
-      <>
-        <S.StyledTypography variant="h4">Escolha de hotel e quarto</S.StyledTypography>
-        <PageUnavailable>
-          <S.StyledTypography variant="h6">
-            Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades!
-          </S.StyledTypography>
-        </PageUnavailable>
-      </>
-    );
-
-  // fluxo normal
+function Page(props) {
   return (
     <>
       <S.StyledTypography variant="h4">Escolha de hotel e quarto</S.StyledTypography>
+      {props.error ? (
+        <ContentUnavailable>
+          <S.StyledTypography variant="h6" {...props} />
+        </ContentUnavailable>
+      ) : (
+        <>{props.children}</>
+      )}
+    </>
+  );
+}
+
+export default function HotelPage() {
+  const { hotels, hotelsLoading, hotelsError } = useHotel();
+  if (hotelsLoading) {
+    return <Page error>Carregando</Page>;
+  }
+  if (hotelsError) {
+    return <Page error>{hotelsError.message}</Page>;
+  }
+
+  // fluxo normal
+  return (
+    <Page>
       <S.SubtitleTypography variant="h5">Primeiro, escolha seu hotel</S.SubtitleTypography>
       <div>
         {hotels?.map((hotel) => (
-          <div>{hotel}</div>
+          <div key={hotel.id}>
+            <img src={hotel.image} alt={hotel.name} />
+            <div>{hotel.name}</div>
+          </div>
         ))}
       </div>
-      <div></div>
-    </>
+    </Page>
   );
 }
