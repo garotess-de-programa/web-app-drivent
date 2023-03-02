@@ -1,0 +1,10 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+**/.png
+
+build
+.husky
+.github
+node_modules
