@@ -1,4 +1,4 @@
-import CardSession from '../../../components/Payment/Card-Session';
+import PaymentSession from '../../../components/Payment/PaymentSession';
 
 export default function Payment() {
   // useHook que verifica se tem inscrição
@@ -6,7 +6,7 @@ export default function Payment() {
   // return <Component Alert>
 
   // fluxo normal
-  //return 'Pagamento: Em breve!';
+  return 'Pagamento: Em breve!';
 
-  return <CardSession />;
+  // return <PaymentSession />;
 }
