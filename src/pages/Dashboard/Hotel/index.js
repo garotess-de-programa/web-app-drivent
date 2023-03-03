@@ -3,8 +3,13 @@ import useHotel from '../../../hooks/api/useHotel';
 import ContentUnavailable from '../../../components/Page/Unavailable';
 import Hotel from '../../../components/Hotel';
 import styled from 'styled-components';
-import { Typography } from '@material-ui/core';
 import { useState } from 'react';
+
+const RoomTypes = {
+  '1': 'Single',
+  '2': 'Single e Double',
+  '3': 'Single, Double e Triple',
+};
 
 function Page(props) {
   return (
@@ -44,9 +49,9 @@ export default function HotelPage() {
             <img src={hotel.image} alt={hotel.name} />
             <HotelName>{hotel.name}</HotelName>
             <Subtitle>Tipos de acomodação:</Subtitle>
-            <Detail>Single e Double</Detail>
-            <Subtitle>Vagas disDetailoníveis:</Subtitle>
-            <Detail>103</Detail>
+            <Detail>{RoomTypes[hotel.capacity]}</Detail>
+            <Subtitle>Vagas disponíveis:</Subtitle>
+            <Detail>{hotel.availableRooms}</Detail>
           </Hotel>
         ))}
       </ContainerHotels>
