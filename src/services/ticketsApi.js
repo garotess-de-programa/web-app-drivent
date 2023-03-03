@@ -5,3 +5,9 @@ export async function checkEnrollment() {
 
   return response.data;
 };
+
+export async function getChosenTicket(token) {
+  const response = await api.get('/tickets');
+
+  return response.data;
+};
