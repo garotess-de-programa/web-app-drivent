@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import * as S from './style';
 
-export default function HotelPage({ hotel }) {
-  const [selected, setSelect] = useState(0);
-
+export default function HotelPage({ hotel, selected, setSelect }) {
   const handleSelected = (id) => {
     selected === id ? setSelect(0) : setSelect(id);
   };

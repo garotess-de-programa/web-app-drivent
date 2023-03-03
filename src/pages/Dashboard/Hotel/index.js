@@ -3,6 +3,7 @@ import useHotel from '../../../hooks/api/useHotel';
 import ContentUnavailable from '../../../components/Page/Unavailable';
 import styled from 'styled-components';
 import Hotel from '../../../components/Hotel';
+import { useState } from 'react';
 
 function Page(props) {
   return (
@@ -20,6 +21,7 @@ function Page(props) {
 }
 
 export default function HotelPage() {
+  const [selected, setSelect] = useState(0);
   const { hotels, hotelsLoading, hotelsError } = useHotel();
   
   if (hotelsLoading) {
@@ -33,7 +35,7 @@ export default function HotelPage() {
     <Page>
       <S.SubtitleTypography variant="h5">Primeiro, escolha seu hotel</S.SubtitleTypography>
       <ContainerHotels>
-        {hotels?.map((hotel) => <Hotel hotel={hotel}/>)}
+        {hotels?.map((hotel) => <Hotel hotel={hotel} selected={selected} setSelect={setSelect} />)}
       </ContainerHotels>
     </Page>
   );
