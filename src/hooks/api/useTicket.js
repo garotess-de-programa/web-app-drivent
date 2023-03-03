@@ -1,8 +1,7 @@
-/* import useAsync from '../useAsync';
+import useAsync from '../useAsync';
 import * as ticketsApi from '../../services/ticketsApi';
 
 export default function useCheckEnrollment() {
-
   const {
     data: userEnrollment,
     loading: userEnrollmentLoading,
@@ -15,8 +14,6 @@ export default function useCheckEnrollment() {
     userEnrollmentLoading,
     userEnrollmentError,
     getEnrollment,
-  };
-  
+  };  
 }
 
-*/
