@@ -5,6 +5,7 @@ import Button from '../Form/Button';
 import { SubtitleTypography } from '../Typography';
 import useTicket from '../../hooks/api/usePayment';
 import Card from './Card';
+import PaymentConfirmed from './PaymentConfirmed';
 
 export default function PaymentSession() {
   const ticket = useTicket();
@@ -36,7 +37,8 @@ export default function PaymentSession() {
           <h6>R${price}</h6>
         </TicketResume>
         <SubtitleTypography>Pagamento</SubtitleTypography>
-        <Card/>
+        {/*<Card/>*/}
+        <PaymentConfirmed/>
         <Button type="submit">FINALIZAR PAGAMENTO</Button>
       </Container>
     </>
