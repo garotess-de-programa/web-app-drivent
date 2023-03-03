@@ -37,7 +37,7 @@ export default function App() {
                 }
               >
                 <Route path="subscription" element={<FillSubscription />} />
-                <Route path="payment" element={<Payment />} />
+                <Route path="payment" element={<Payment />} /* errorElement={<EnrollmentError />} *//>
                 <Route path="hotel" element={<Hotel />} />
                 <Route path="activities" element={<Activities />} />
                 <Route path="certificate" element={<Certificate />} />

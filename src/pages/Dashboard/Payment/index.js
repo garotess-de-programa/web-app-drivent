@@ -5,19 +5,8 @@ import useCheckEnrollment from '../../../hooks/api/useTicket';
 import PaymentSession from '../../../components/Payment/PaymentSession';
 
 export default function Payment() {
-  /* const { userEnrollment } = useCheckEnrollment();
-  if(userEnrollment.loading === true)
-    return(
-      <>
-        <S.StyledTypography variant="h4">Ingresso e pagamento</S.StyledTypography>
-        <PageUnavailable>
-          <S.StyledTypography variant="h6">
-            Carregando...
-          </S.StyledTypography>
-        </PageUnavailable>
-      </>
-    ); 
-
+  const { userEnrollment } = useCheckEnrollment();
+  
   if(!userEnrollment) 
     return(
       <>
@@ -28,7 +17,8 @@ export default function Payment() {
           </S.StyledTypography>
         </PageUnavailable>
       </>
-    );  */  
+    );   
+
   return <TicketTypeSelection />;
   //return <PaymentSession />;
 }
