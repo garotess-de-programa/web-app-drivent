@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div`
+export const HotelWrapper = styled.div`
   height: auto;
   max-height: 300px;
 
@@ -27,4 +27,21 @@ export default styled.div`
   :hover {
     background-color: ${({ clicked }) => clicked ? '#FFE7C0' : '#D7D7D7'};
   }
+`;
+
+export const HotelName = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+export const Subtitle = styled.p`
+  margin-top: 10px;
+  font-size: 14px;
+  width: 168px;
+  font-weight: bold;
+`;
+
+export const Detail = styled(Subtitle)`
+  margin-top: 4px;
+  font-weight: normal;
 `;
