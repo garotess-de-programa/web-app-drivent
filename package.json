@@ -20,6 +20,7 @@
     "react-icons": "^4.2.0",
     "react-input-mask": "^2.0.4",
     "react-loader-spinner": "^4.0.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.4",
@@ -134,4 +135,3 @@
     "prettier": "2.8.4"
   }
 }
-
