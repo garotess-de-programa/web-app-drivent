@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Hotel from '../../../components/Hotel';
 
 import { useRooms } from '../../../hooks/api/useRooms';
+import RoomPage from '../../../components/Hotel/Room';
 
 function Page(props) {
   return (
@@ -45,10 +46,10 @@ export default function HotelPage() {
         ))}
       </Container>
       <ContainerRooms show={selected !== 0}>
-        <S.StyledTypography variant="h4">Ótima opção! Agora escolha seu quarto.</S.StyledTypography>
+        <S.SubtitleTypography variant="h5">Ótima opção! Agora escolha seu quarto.</S.SubtitleTypography>
         <Container show={!!rooms}>
           {rooms?.map((room) => (
-            <div>{room?.name}</div>
+            <RoomPage room={room} />
           ))}
         </Container>
       </ContainerRooms>
@@ -73,5 +74,7 @@ const Container = styled.div`
 `;
 
 const ContainerRooms = styled.div`
+  margin-top: 36px;
   display: ${({ show }) => (show ? 'flex' : 'none')};
+  flex-direction: column;
 `;
