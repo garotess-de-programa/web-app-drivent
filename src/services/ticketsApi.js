@@ -1,4 +1,4 @@
-/*import api from './api';
+import api from './api';
 
 export async function checkEnrollment() {
   const response = await api.get('/enrollments');
@@ -6,4 +6,8 @@ export async function checkEnrollment() {
   return response.data;
 };
 
-*/
+export async function getChosenTicket(token) {
+  const response = await api.get('/tickets');
+
+  return response.data;
+};

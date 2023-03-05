@@ -23,6 +23,7 @@ export default function App() {
   return (
     <>
       <ToastContainer />
+
       <QueryClientProvider client={queryClient}>
         <EventInfoProvider>
           <UserProvider>
@@ -52,6 +53,7 @@ export default function App() {
           </UserProvider>
         </EventInfoProvider>
       </QueryClientProvider>
+
     </>
   );
 }
