@@ -5,3 +5,9 @@ export async function getHotels() {
 
   return response.data;
 }
+
+export async function getHotelRooms(id) {
+  const response = await api.get(`/hotels/${id}`);
+
+  return response.data;
+}
