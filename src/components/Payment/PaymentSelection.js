@@ -7,7 +7,7 @@ import Card from './Card';
 import PaymentConfirmed from './PaymentConfirmed';
 import ConfirmPaymentButton from './ConfirmButton';
 
-export default function PaymentSession() {
+export default function PaymentSelection() {
   const ticket = useTicket();
   const [hotel, setHotel] = useState('Com Hotel');
   const [remote, setRemote] = useState('Presencial');
@@ -38,7 +38,7 @@ export default function PaymentSession() {
       <SubtitleTypography>Pagamento</SubtitleTypography>
       {/*<Card/>*/}
       {/*   <PaymentConfirmed/>*/}
-      <ConfirmPaymentButton/>
+      <ConfirmPaymentButton />
     </>
   );
 }
