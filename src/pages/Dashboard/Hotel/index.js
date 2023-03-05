@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import * as S from '../../../components/Typography';
 import useHotel from '../../../hooks/api/useHotel';
 import ContentUnavailable from '../../../components/Page/Unavailable';
 import styled from 'styled-components';
 import Hotel from '../../../components/Hotel';
+
+import { useRooms } from '../../../hooks/api/useRooms';
+import RoomPage from '../../../components/Hotel/Room';
 
 function Page(props) {
   return (
@@ -20,38 +24,57 @@ function Page(props) {
 }
 
 export default function HotelPage() {
+  const [rooms, setRooms] = useState([]);
+  const [selected, setSelect] = useState(0);
+
   const { hotels, hotelsLoading, hotelsError } = useHotel();
-  
+  const { mutation } = useRooms(setSelect, setRooms);
+
   if (hotelsLoading) {
-    return <Page error>Carregando</Page>;
+    return <Page error={true}>Carregando</Page>;
   }
   if (hotelsError) {
-    return <Page error>{hotelsError.message}</Page>;
+    return <Page error={true}>{hotelsError.message}</Page>;
   }
 
   return (
     <Page>
       <S.SubtitleTypography variant="h5">Primeiro, escolha seu hotel</S.SubtitleTypography>
-      <ContainerHotels>
-        {hotels?.map((hotel) => <Hotel hotel={hotel}/>)}
-      </ContainerHotels>
+      <Container show={true}>
+        {hotels?.map((hotel) => (
+          <Hotel hotel={hotel} selected={selected} handleRooms={mutation.mutate} />
+        ))}
+      </Container>
+      <ContainerRooms show={selected !== 0}>
+        <S.SubtitleTypography variant="h5">Ótima opção! Agora escolha seu quarto.</S.SubtitleTypography>
+        <Container show={!!rooms}>
+          {rooms?.map((room) => (
+            <RoomPage room={room} />
+          ))}
+        </Container>
+      </ContainerRooms>
     </Page>
   );
 }
 
-const ContainerHotels = styled.div`
-  display: flex;
+const Container = styled.div`
+  display: ${({ show }) => (show ? 'flex' : 'none')};
   gap: 16px;
 
   @media (max-width: 810px) {
-    display: grid;
+    display: ${({ show }) => (show ? 'grid' : 'none')};
     grid-gap: 1rem;
-    grid-template-columns:
-      repeat(auto-fit, minmax(196px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
   }
   @media (max-width: 610px) {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    display: ${({ show }) => (show ? 'flex' : 'none')};
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const ContainerRooms = styled.div`
+  margin-top: 36px;
+  display: ${({ show }) => (show ? 'flex' : 'none')};
+  flex-direction: column;
 `;

@@ -13,40 +13,47 @@ import Certificate from './pages/Dashboard/Certificate';
 
 import { EventInfoProvider } from './contexts/EventInfoContext';
 import { UserProvider } from './contexts/UserContext';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import useToken from './hooks/useToken';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <>
       <ToastContainer />
-      <EventInfoProvider>
-        <UserProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Countdown />} />
-              <Route path="/enroll" element={<Enroll />} />
-              <Route path="/sign-in" element={<SignIn />} />
 
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRouteGuard>
-                    <Dashboard />
-                  </ProtectedRouteGuard>
-                }
-              >
-                <Route path="subscription" element={<FillSubscription />} />
-                <Route path="payment" element={<Payment />} /* errorElement={<EnrollmentError />} *//>
-                <Route path="hotel" element={<Hotel />} />
-                <Route path="activities" element={<Activities />} />
-                <Route path="certificate" element={<Certificate />} />
-                <Route index path="*" element={<Navigate to="/dashboard/subscription" />} />
-              </Route>
-            </Routes>
-          </Router>
-        </UserProvider>
-      </EventInfoProvider>
+      <QueryClientProvider client={queryClient}>
+        <EventInfoProvider>
+          <UserProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<Countdown />} />
+                <Route path="/enroll" element={<Enroll />} />
+                <Route path="/sign-in" element={<SignIn />} />
+
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRouteGuard>
+                      <Dashboard />
+                    </ProtectedRouteGuard>
+                  }
+                >
+                  <Route path="subscription" element={<FillSubscription />} />
+                  <Route path="payment" element={<Payment />} />
+                  <Route path="hotel" element={<Hotel />} />
+                  <Route path="activities" element={<Activities />} />
+                  <Route path="certificate" element={<Certificate />} />
+                  <Route index path="*" element={<Navigate to="/dashboard/subscription" />} />
+                </Route>
+              </Routes>
+            </Router>
+          </UserProvider>
+        </EventInfoProvider>
+      </QueryClientProvider>
+
     </>
   );
 }
