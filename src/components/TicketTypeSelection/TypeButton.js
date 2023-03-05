@@ -35,7 +35,7 @@ export const TypeButton = styled.button`
   }
 `;
 
-const ButtonStyledTypography = styled(Typography)`
+export const ButtonStyledTypography = styled(Typography)`
   h3 {
     font-size: 16px !important;
     font-weight: 400 !important;
