@@ -14,6 +14,5 @@ export default function useCheckEnrollment() {
     userEnrollmentLoading,
     userEnrollmentError,
     getEnrollment,
-  };  
+  };
 }
-
