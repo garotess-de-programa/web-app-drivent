@@ -6,9 +6,8 @@ import PaymentSession from '../../../components/Payment/PaymentSession';
 
 export default function Payment() {
   const { userEnrollment } = useCheckEnrollment();
-  
-  if(!userEnrollment) 
-    return(
+  if (!userEnrollment)
+    return (
       <>
         <S.StyledTypography variant="h4">Ingresso e pagamento</S.StyledTypography>
         <PageUnavailable>
@@ -17,8 +16,8 @@ export default function Payment() {
           </S.StyledTypography>
         </PageUnavailable>
       </>
-    );   
+    );
 
   return <TicketTypeSelection />;
-  //return <PaymentSession />;
+  //return <PaymentSelection />;
 }

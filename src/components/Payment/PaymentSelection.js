@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
-import Button from '../Form/Button';
 import { SubtitleTypography } from '../Typography';
 import useTicket from '../../hooks/api/usePayment';
 import Card from './Card';
+import PaymentConfirmed from './PaymentConfirmed';
+import ConfirmPaymentButton from './ConfirmButton';
 
-export default function PaymentSession() {
+export default function PaymentSelection() {
   const ticket = useTicket();
   const [hotel, setHotel] = useState('Com Hotel');
   const [remote, setRemote] = useState('Presencial');
@@ -27,18 +28,17 @@ export default function PaymentSession() {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-      <Container>
-        <SubtitleTypography>Ingresso escolhido</SubtitleTypography>
-        <TicketResume>
-          <h6>
-            {remote} + {hotel}
-          </h6>
-          <h6>R${price}</h6>
-        </TicketResume>
-        <SubtitleTypography>Pagamento</SubtitleTypography>
-        <Card/>
-        <Button type="submit">FINALIZAR PAGAMENTO</Button>
-      </Container>
+      <SubtitleTypography>Ingresso escolhido</SubtitleTypography>
+      <TicketResume>
+        <h6>
+          {remote} + {hotel}
+        </h6>
+        <h6>R${price}</h6>
+      </TicketResume>
+      <SubtitleTypography>Pagamento</SubtitleTypography>
+      {/*<Card/>*/}
+      {/*   <PaymentConfirmed/>*/}
+      <ConfirmPaymentButton />
     </>
   );
 }
@@ -46,8 +46,6 @@ export default function PaymentSession() {
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
 `;
-
-const Container = styled.div``;
 
 const TicketResume = styled.div`
   background-color: rgba(255, 238, 210, 1);
