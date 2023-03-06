@@ -19,10 +19,14 @@ const TypeLodging = {
 };
 
 export default function Payment() {
-  const { ticketTypes: data, ticketTypesLoading, ticketTypesError } = useTicketTypes();
+  const { ticketTypes, ticketTypesLoading, ticketTypesError } = useTicketTypes();
+  const { enrollment } = useEnrollment();
+
   const [ticketGenre, setTicketGenre] = useState(null);
   const [ticketLodging, setTicketLodging] = useState(null);
-  const [ticketTypes, setTicketTypes] = useState(null);
+
+  // dorigo
+  // const [ticketTypes, setTicketTypes] = useState(null);
   const [ticketPresential, setTicketPresential] = useState(false);
   const [ticketOnline, setTicketOnline] = useState(false);
   const [ticketWithoutHotel, setTicketWithoutHotel] = useState(false);
@@ -45,48 +49,30 @@ export default function Payment() {
     withHotel
   );
 
-  console.log({ data });
-
   const toggleType = (typeToggle, newType) => {
-    typeToggle === 'Genre'
-      ? ticketGenre === newType
-        ? setTicketGenre(null)
-        : setTicketGenre(newType)
-      : ticketLodging === newType
-      ? setTicketLodging(null)
-      : setTicketLodging(newType);
+    if (typeToggle === 'Genre') {
+      ticketGenre === newType ? setTicketGenre(null) : setTicketGenre(newType);
+    } else {
+      ticketLodging === newType ? setTicketLodging(null) : setTicketLodging(newType);
+    }
   };
-  const { enrollment } = useEnrollment();
+
   const { userData: user } = useContext(UserContext);
-  const userId = user.user.id;
   const token1 = useToken();
 
-  useEffect(() => {
-    if (confirmation) {
-      VerifyIfTicketExists(
-        token1,
-        setTicketOnline,
-        setTicketPresential,
-        setTicketWithoutHotel,
-        setTicketWithHotel,
-        setTicketId,
-        setConfirmation
-      );
-      VerifyIfPaymentExists(userId, token1, setPayed);
-    }
-  }, [confirmation]);
-
-  useEffect(() => {
-    if (data) {
-      setTicketTypes(data);
-    }
-  }, [data]);
-
-  if (ticketTypesLoading || ticketTypesError) {
+  if (ticketTypesLoading) {
     return (
       <>
         <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
         <Center>Carregando</Center>
+      </>
+    );
+  }
+  if (ticketTypesError) {
+    return (
+      <>
+        <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+        <Center>Deu erro</Center>
       </>
     );
   }
@@ -101,6 +87,8 @@ export default function Payment() {
       </>
     );
   }
+  console.log(ticketTypes.filter((t) => t.name === 'Online'));
+  const ticketTypeOnline = ticketTypes.filter((t) => t.name === 'Online');
 
   return (
     <>
@@ -163,14 +151,12 @@ export default function Payment() {
           <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
           <StyledTitle>Primeiro, escolha sua modalidade de ingresso:</StyledTitle>
           <TicketTypeWrapper>
-            {ticketTypes
-              ?.map((ticketType) => (
-                <ContainerTicket selected={ticketGenre === 'Online'} onClick={() => toggleType('Genre', 'Online')}>
-                  <h1>{ticketType.name}</h1>
-                  <h2>R$ {ticketType.price}</h2>
-                </ContainerTicket>
-              ))
-              ?.filter((t) => t.name === 'Online')}
+            {ticketTypeOnline?.map((ticketType) => (
+              <ContainerTicket selected={ticketGenre === 'Online'} onClick={() => toggleType('Genre', 'Online')}>
+                <h1>{ticketType.name}</h1>
+                <h2>R$ {ticketType.price}</h2>
+              </ContainerTicket>
+            ))}
             <ContainerTicket selected={ticketGenre === 'Presencial'} onClick={() => toggleType('Genre', 'Presencial')}>
               <h1>Presencial</h1>
               <h2>R$ {presential}</h2>
