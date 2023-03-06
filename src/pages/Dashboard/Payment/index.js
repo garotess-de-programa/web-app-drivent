@@ -1,3 +1,4 @@
+/*
 import TicketTypeSelection from '../../../components/TicketTypeSelection';
 import * as S from '../../../components/Typography';
 import PageUnavailable from '../../../components/Page/Unavailable';
@@ -6,9 +7,9 @@ import PaymentSession from '../../../components/Payment/PaymentSession';
 
 export default function Payment() {
   const { userEnrollment } = useCheckEnrollment();
-  
-  if(!userEnrollment) 
-    return(
+
+  if (!userEnrollment)
+    return (
       <>
         <S.StyledTypography variant="h4">Ingresso e pagamento</S.StyledTypography>
         <PageUnavailable>
@@ -17,8 +18,15 @@ export default function Payment() {
           </S.StyledTypography>
         </PageUnavailable>
       </>
-    );   
+    );
 
   return <TicketTypeSelection />;
   //return <PaymentSession />;
+}
+*/
+
+import Payment from '../../Payment/index';
+
+export default function FillSubscription() {
+  return <Payment />;
 }
