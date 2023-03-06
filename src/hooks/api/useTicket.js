@@ -4,7 +4,7 @@ import useToken from '../useToken';
 import * as ticketApi from '../../services/ticketsApi';
 
 /*
-export default function useCheckEnrollment() {
+export  function useCheckEnrollment() {
   const {
     data: userEnrollment,
     loading: userEnrollmentLoading,
@@ -17,8 +17,9 @@ export default function useCheckEnrollment() {
     userEnrollmentLoading,
     userEnrollmentError,
     getEnrollment,
-  };  
+  };
 }
+
 */
 
 export default function useTicket() {
@@ -27,3 +28,4 @@ export default function useTicket() {
   const { data: ticket } = useAsync(() => ticketApi.getChosenTicket(token));
   return ticket;
 }
+

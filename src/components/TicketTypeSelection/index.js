@@ -1,6 +1,7 @@
 import Typography from '@material-ui/core/Typography';
 import { useState } from 'react';
 import styled from 'styled-components';
+import BookTicketButton from './BookTicketButton';
 import { ButtonsWraper } from './ButtonsWraper';
 import Typebutton, { ButtonStyledTypography } from './TypeButton';
 
@@ -16,6 +17,7 @@ export default function TicketTypeSelection() {
       <ButtonsWraper>
         <Typebutton />
       </ButtonsWraper>
+      <BookTicketButton />
       {presential ? (
         <>
           <StyledTypography variant="h6" color="textSecondary">
@@ -39,6 +41,7 @@ export default function TicketTypeSelection() {
       ) : (
         ''
       )}
+
     </>
   );
 }

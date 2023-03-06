@@ -12,6 +12,7 @@ export async function getChosenTicket(token) {
   return response.data;
 }
 
+
 export async function getTicketById(token) {
   const response = await api.get('/tickets', {
     headers: {
@@ -36,6 +37,10 @@ export async function createTicket(body, token) {
       Authorization: `Bearer ${token}`,
     },
   });
+
+export async function createTicket(ticketTypeId) {
+  const response = await api.post('/tickets', { ticketTypeId });
+
 
   return response.data;
 }

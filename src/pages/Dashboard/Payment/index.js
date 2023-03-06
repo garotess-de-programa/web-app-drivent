@@ -21,7 +21,7 @@ export default function Payment() {
     );
 
   return <TicketTypeSelection />;
-  //return <PaymentSession />;
+  //return <PaymentSelection />;
 }
 */
 
