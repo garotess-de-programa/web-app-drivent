@@ -1,7 +1,10 @@
 import useAsync from '../useAsync';
-import * as ticketsApi from '../../services/ticketsApi';
+import useToken from '../useToken';
 
-export default function useCheckEnrollment() {
+import * as ticketApi from '../../services/ticketsApi';
+
+/*
+export  function useCheckEnrollment() {
   const {
     data: userEnrollment,
     loading: userEnrollmentLoading,
@@ -16,3 +19,13 @@ export default function useCheckEnrollment() {
     getEnrollment,
   };
 }
+
+*/
+
+export default function useTicket() {
+  const token = useToken();
+
+  const { data: ticket } = useAsync(() => ticketApi.getChosenTicket(token));
+  return ticket;
+}
+

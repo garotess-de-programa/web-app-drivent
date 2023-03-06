@@ -1,3 +1,4 @@
+/*
 import TicketTypeSelection from '../../../components/TicketTypeSelection';
 import * as S from '../../../components/Typography';
 import PageUnavailable from '../../../components/Page/Unavailable';
@@ -6,6 +7,7 @@ import PaymentSession from '../../../components/Payment/PaymentSession';
 
 export default function Payment() {
   const { userEnrollment } = useCheckEnrollment();
+
   if (!userEnrollment)
     return (
       <>
@@ -20,4 +22,11 @@ export default function Payment() {
 
   return <TicketTypeSelection />;
   //return <PaymentSelection />;
+}
+*/
+
+import Payment from '../../Payment/index';
+
+export default function FillSubscription() {
+  return <Payment />;
 }
