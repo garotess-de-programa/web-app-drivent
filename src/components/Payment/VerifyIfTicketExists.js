@@ -1,3 +1,4 @@
+import useTicket from '../../hooks/api/useTicket';
 import { getTicketById } from '../../services/ticketsApi';
 
 export default async function VerifyIfTicketExists(
@@ -9,6 +10,7 @@ export default async function VerifyIfTicketExists(
   setTicketId,
   setConfirmation
 ) {
+  const { getTickets } = useTicket();
   const ticket = await getTicketById(token);
 
   if (ticket.TicketType.isRemote) {
