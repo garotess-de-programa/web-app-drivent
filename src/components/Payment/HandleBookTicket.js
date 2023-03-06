@@ -12,7 +12,7 @@ export default async function HandleBookTicket(
   setConfirmation,
   setTicketId
 ) {
-  const userId = enrollment.id;
+  //const userId = enrollment.userId;
   const ticketTypes = await getTicketTypes(token);
   const ticketTypeId = GetTicketTypeId(
     ticketPresential,
@@ -22,12 +22,11 @@ export default async function HandleBookTicket(
     ticketTypes
   );
   const body = {
-    userId,
     ticketTypeId,
   };
 
   try {
-    createTicket(body, token);
+    createTicket(body);
     setTicketId(ticketTypeId);
     setConfirmation(true);
   } catch (error) {

@@ -20,12 +20,11 @@ export default function useTicket() {
 */
 
 export default function usePayment() {
-  const token = useToken();
   const {
     loading: paymentLoading,
     error: paymentError,
     act: createPayment,
-  } = useAsync((body) => paymentApi.createPayment(body, token));
+  } = useAsync((body) => paymentApi.createPayment(body), false);
 
   return {
     paymentLoading,
