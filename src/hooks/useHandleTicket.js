@@ -18,7 +18,7 @@ export default function useHandleTicket(ticketTypes) {
 
   const toggleType = (typeToggle, newType) => {
     if (typeToggle === 'Genre') {
-      ticketGenre === newType ? setTicketGenre(null) : setTicketGenre(newType);
+      ticketGenre === newType ? setTicketGenre(null, setTicketLodging(null)) : setTicketGenre(newType);
     } else {
       ticketLodging === newType ? setTicketLodging(null) : setTicketLodging(newType);
     }
