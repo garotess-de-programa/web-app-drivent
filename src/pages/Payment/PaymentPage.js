@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as S from '../../components';
+import { CreditCard } from '../../components';
 
 export default function PaymentPage({ useTicket: { selected } }) {
   const [payed, setPayed] = useState(false);
@@ -48,7 +49,7 @@ function PaymentCompleted() {
 function PaymentInProgress({ id, set }) {
   return (
     <S.CreditCardWrapper>
-      <S.CreditCard setPayed={set} ticketId={id} />
+      <CreditCard setPayed={set} ticketId={id} />
     </S.CreditCardWrapper>
   );
 }
