@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-
-import Page from '../components/Page';
-import { StyledContainer as Container } from '../components/Auth';
+import { AuthLayout as Container, Page } from '../components';
 
 export default function Dashboard({ background, children }) {
   return (

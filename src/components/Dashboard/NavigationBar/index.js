@@ -4,9 +4,9 @@ import styled from 'styled-components';
 
 import { FaFileContract, FaMoneyBill, FaBed, FaCalendarWeek, FaCertificate } from 'react-icons/fa';
 
-import NavigationButton from './NavigationButton';
+import { NavigationButton } from './NavigationButton';
 
-export default function NavigationBar() {
+export function NavigationBar() {
   const location = useLocation();
 
   function isActive(buttonPath) {

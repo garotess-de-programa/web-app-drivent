@@ -13,9 +13,7 @@ import useEnrollment from '../../hooks/api/useEnrollment';
 import useSaveEnrollment from '../../hooks/api/useSaveEnrollment';
 import { useForm } from '../../hooks/useForm';
 
-import Input from '../Form/Input';
-import Button from '../Form/Button';
-import Select from '../../components/Form/Select';
+import { MultiSelect as Select, Input, Button } from '../../components';
 import { FormWrapper } from './FormWrapper';
 import { CustomDatePicker } from './CustomDatePicker';
 import { InputWrapper } from './InputWrapper';
@@ -25,7 +23,7 @@ import FormValidations from './FormValidations';
 
 dayjs.extend(CustomParseFormat);
 
-export default function PersonalInformationForm() {
+export function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { getCep } = useCep();
   const { enrollment } = useEnrollment();

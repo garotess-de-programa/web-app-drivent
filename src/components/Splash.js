@@ -1,7 +1,7 @@
 import Loader from 'react-loader-spinner';
 import styled from 'styled-components';
 
-import Page from './Page';
+import { Page } from './Page';
 
 import driventLogo from '../assets/images/drivent.png';
 

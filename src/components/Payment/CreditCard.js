@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
 import React from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import usePayment from '../../hooks/api/usePayment';
 import GetCardIssuer from './GetCardIssuer';
 
-export default function CreditCard({ payed, setPayed, token, ticketId, enrollment }) {
+export function CreditCard({ setPayed, ticketId }) {
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -209,4 +209,11 @@ const Button = styled.div`
   line-height: 16px;
   text-align: center;
   color: #000000;
+`;
+
+export const CreditCardWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 24px 0px 0px 0px;
 `;

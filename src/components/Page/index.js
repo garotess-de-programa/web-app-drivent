@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div`
+export const Page = styled.div`
   background: ${(props) => props.background};
   background-size: cover;
   min-height: 100vh;

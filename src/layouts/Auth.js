@@ -1,12 +1,11 @@
-import Page from '../components/Page';
-import { StyledContainer } from '../components/Auth';
+import { AuthLayout as Container, Page } from '../components';
 
 export default function AuthLayout({ background, children }) {
   return (
     <Page background={background}>
-      <StyledContainer width="400px" height="520px">
+      <Container width="400px" height="520px">
         {children}
-      </StyledContainer>
+      </Container>
     </Page>
   );
 }

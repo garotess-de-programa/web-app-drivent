@@ -4,10 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import AuthLayout from '../../layouts/Auth';
 
-import Input from '../../components/Form/Input';
-import Button from '../../components/Form/Button';
-import Link from '../../components/Link';
-import { Row, Title, Label } from '../../components/Auth';
+import { Button, Input, Row, Title, Label, ContainerLink } from '../../components';
 
 import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
@@ -61,7 +58,7 @@ export default function SignIn() {
         </form>
       </Row>
       <Row>
-        <Link to="/enroll">Não possui login? Inscreva-se</Link>
+        <ContainerLink to="/enroll">Não possui login? Inscreva-se</ContainerLink>
       </Row>
     </AuthLayout>
   );

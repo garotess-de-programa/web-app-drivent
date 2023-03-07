@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div`
+export const UnavailablePage = styled.div`
   width: 100%;
   height: calc(100% - 80px);
   display: flex;

@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import useCreateTicket from '../../hooks/api/useCreateTicket';
-import Button from '../Form/Button';
+import { Button } from '../../components';
 
 export default function BookTicketButton(isRemote, includesHotel) {
   let ticketTypeId;

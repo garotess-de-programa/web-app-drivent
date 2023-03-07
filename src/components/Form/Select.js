@@ -12,7 +12,7 @@ const FormControlWrapper = styled.section`
   flex-direction: column;
 `;
 
-export default function MultiSelect({ label, name, id, value, onChange, children }) {
+export function MultiSelect({ label, name, id, value, onChange, children }) {
   const inputLabelRef = useRef(null);
 
   return (
