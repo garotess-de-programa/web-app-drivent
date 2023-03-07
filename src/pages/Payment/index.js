@@ -9,7 +9,7 @@ import useHandleTicket from '../../hooks/useHandleTicket';
 export default function Payment() {
   const { ticketTypes, ticketTypesLoading, ticketTypesError } = useTicketTypes();
   const { enrollment } = useEnrollment();
-  const useTicket = useHandleTicket();
+  const useTicket = useHandleTicket(ticketTypes);
 
   const [confirmation, setConfirmation] = useState(false);
 
