@@ -1,6 +1,17 @@
 import { useState } from 'react';
 
-export default function useHandleTicket() {
+const findType = {
+  isRemote: (type) => {
+    return type.name === 'Remote Ticket';
+  },
+  isWithHotel: (type) => {
+    return type.name === 'Presencial With Hotel Ticket';
+  },
+  isWithoutHotel: (type) => {
+    return type.name === 'Presencial Without Hotel Ticket';
+  },
+};
+export default function useHandleTicket(ticketTypes) {
   const [ticketGenre, setTicketGenre] = useState(null);
   const [ticketLodging, setTicketLodging] = useState(null);
   let selected;
@@ -14,12 +25,13 @@ export default function useHandleTicket() {
   };
 
   if (ticketGenre === 'Remote') {
-    selected = 'Remote Ticket';
+    selected = ticketTypes?.find(findType.isRemote);
   } else {
-    if (ticketLodging) {
-      selected = ticketLodging;
-    } else {
-      selected = undefined;
+    if (ticketLodging?.includes('With')) {
+      selected = ticketTypes?.find(findType.isWithHotel);
+    }
+    if (ticketLodging?.includes('Without')) {
+      selected = ticketTypes?.find(findType.isWithoutHotel);
     }
   }
 
