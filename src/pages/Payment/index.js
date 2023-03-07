@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import UserContext from '../../contexts/UserContext';
 import useEnrollment from '../../hooks/api/useEnrollment';
@@ -11,8 +11,22 @@ import { FaCheckCircle } from 'react-icons/fa';
 import useToken from '../../hooks/useToken';
 import VerifyIfTicketExists from '../../components/Payment/VerifyIfTicketExists';
 import VerifyIfPaymentExists from '../../components/Payment/VerifyIfPaymentExists';
+import useTicketTypes from '../../hooks/api/useTicketType';
+
+const TypeLodging = {
+  false: 'Without Hotel',
+  true: 'With Hotel',
+};
 
 export default function Payment() {
+  const { ticketTypes, ticketTypesLoading, ticketTypesError } = useTicketTypes();
+  const { enrollment } = useEnrollment();
+
+  const [ticketGenre, setTicketGenre] = useState(null);
+  const [ticketLodging, setTicketLodging] = useState(null);
+
+  // dorigo
+  // const [ticketTypes, setTicketTypes] = useState(null);
   const [ticketPresential, setTicketPresential] = useState(false);
   const [ticketOnline, setTicketOnline] = useState(false);
   const [ticketWithoutHotel, setTicketWithoutHotel] = useState(false);
@@ -20,10 +34,10 @@ export default function Payment() {
   const [confirmation, setConfirmation] = useState(false);
   const [payed, setPayed] = useState(false);
   const [ticketId, setTicketId] = useState(null);
-  const presential = 250;
-  const online = 100;
+  const presential = 800;
+  const online = 400;
   const withoutHotel = 0;
-  const withHotel = 350;
+  const withHotel = 400;
   const totalSum = TotalSum(
     ticketPresential,
     ticketOnline,
@@ -35,24 +49,33 @@ export default function Payment() {
     withHotel
   );
 
-  const { enrollment } = useEnrollment();
+  const toggleType = (typeToggle, newType) => {
+    if (typeToggle === 'Genre') {
+      ticketGenre === newType ? setTicketGenre(null) : setTicketGenre(newType);
+    } else {
+      ticketLodging === newType ? setTicketLodging(null) : setTicketLodging(newType);
+    }
+  };
+
   const { userData: user } = useContext(UserContext);
-  const userId = user.user.id;
   const token1 = useToken();
 
-  useEffect(() => {
-    VerifyIfTicketExists(
-      token1,
-      setTicketOnline,
-      setTicketPresential,
-      setTicketWithoutHotel,
-      setTicketWithHotel,
-      setTicketId,
-      setConfirmation
+  if (ticketTypesLoading) {
+    return (
+      <>
+        <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+        <Center>Carregando</Center>
+      </>
     );
-    VerifyIfPaymentExists(userId, token1, setPayed);
-  }, [confirmation]);
-
+  }
+  if (ticketTypesError) {
+    return (
+      <>
+        <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+        <Center>Deu erro</Center>
+      </>
+    );
+  }
   if (!enrollment) {
     return (
       <>
@@ -64,6 +87,8 @@ export default function Payment() {
       </>
     );
   }
+  console.log(ticketTypes.filter((t) => t.name === 'Online'));
+  const ticketTypeOnline = ticketTypes.filter((t) => t.name === 'Online');
 
   return (
     <>
@@ -81,23 +106,19 @@ export default function Payment() {
             ) : (
               <></>
             )}
-            {ticketPresential && ticketWithoutHotel ? (
+            {ticketPresential && ticketWithoutHotel && (
               <SummaryBox>
                 <h1>Presencial s/ Hotel</h1>
                 <br />
                 <h2>R$ {totalSum}</h2>
               </SummaryBox>
-            ) : (
-              <></>
             )}
-            {ticketPresential && ticketWithHotel ? (
+            {ticketPresential && ticketWithHotel && (
               <SummaryBox>
                 <h1>Presencial + Hotel</h1>
                 <br />
                 <h2>R$ {totalSum}</h2>
               </SummaryBox>
-            ) : (
-              <></>
             )}
           </SummaryWrapper>
 
@@ -130,54 +151,36 @@ export default function Payment() {
           <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
           <StyledTitle>Primeiro, escolha sua modalidade de ingresso:</StyledTitle>
           <TicketTypeWrapper>
-            <div
-              className={ticketPresential.toString()}
-              onClick={() => {
-                handlePayent.TicketModel(setTicketPresential, setTicketOnline, 1);
-              }}
-            >
+            {ticketTypeOnline?.map((ticketType) => (
+              <ContainerTicket selected={ticketGenre === 'Online'} onClick={() => toggleType('Genre', 'Online')}>
+                <h1>{ticketType.name}</h1>
+                <h2>R$ {ticketType.price}</h2>
+              </ContainerTicket>
+            ))}
+            <ContainerTicket selected={ticketGenre === 'Presencial'} onClick={() => toggleType('Genre', 'Presencial')}>
               <h1>Presencial</h1>
               <h2>R$ {presential}</h2>
-            </div>
-
-            <div
-              className={ticketOnline.toString()}
-              onClick={() => {
-                handlePayent.TicketModel(setTicketPresential, setTicketOnline, 2);
-              }}
-            >
-              <h1>Online</h1>
-              <h2>R$ {online}</h2>
-            </div>
+            </ContainerTicket>
           </TicketTypeWrapper>
 
-          {ticketPresential ? (
+          {ticketGenre === 'Presencial' && (
             <HostWrapper>
               <StyledTitle>Ótimo! Agora escolha sua modalidade de hospedagem:</StyledTitle>
               <TicketTypeWrapper>
-                <div
-                  className={ticketWithoutHotel.toString()}
-                  onClick={() => {
-                    handlePayent.HostModel(setTicketWithoutHotel, setTicketWithHotel, 1);
-                  }}
-                >
-                  <h1>Sem Hotel</h1>
-                  <h2>+ R$ {withoutHotel}</h2>
-                </div>
-
-                <div
-                  className={ticketWithHotel.toString()}
-                  onClick={() => {
-                    handlePayent.HostModel(setTicketWithoutHotel, setTicketWithHotel, 2);
-                  }}
-                >
-                  <h1>Com Hotel</h1>
-                  <h2>+ R$ {withHotel}</h2>
-                </div>
+                {ticketTypes
+                  ?.map((ticketType) => (
+                    <ContainerTicket
+                      selected={ticketLodging === TypeLodging[ticketType.includesHotel]}
+                      key={ticketType.id}
+                      onClick={() => toggleType('Lodging', TypeLodging[ticketType.includesHotel])}
+                    >
+                      <h1>{ticketType.name}</h1>
+                      <h2>R$ {ticketType.price}</h2>
+                    </ContainerTicket>
+                  ))
+                  ?.filter((t) => t.name === 'Presencial')}
               </TicketTypeWrapper>
             </HostWrapper>
-          ) : (
-            <></>
           )}
 
           {ticketWithoutHotel || ticketWithHotel || ticketOnline ? (
@@ -244,34 +247,6 @@ const TicketTypeWrapper = styled.div`
     cursor: pointer;
   }
 
-  .true {
-    width: 145px;
-    height: 145px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #cecece;
-    border-radius: 20px;
-    margin-right: 24px;
-    cursor: pointer;
-    background-color: #ffeed2;
-  }
-
-  .false {
-    width: 145px;
-    height: 145px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #cecece;
-    border-radius: 20px;
-    margin-right: 24px;
-    cursor: pointer;
-    background-color: #ffffff;
-  }
-
   h1 {
     font-family: 'Roboto';
     font-style: normal;
@@ -291,6 +266,20 @@ const TicketTypeWrapper = styled.div`
     text-align: center;
     color: #898989;
   }
+`;
+
+const ContainerTicket = styled.div`
+  width: 145px;
+  height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #cecece;
+  border-radius: 20px;
+  margin-right: 24px;
+  cursor: pointer;
+  background-color: ${(props) => (props.selected ? '#ffeed2' : '#ffffff')};
 `;
 
 const HostWrapper = styled.div`

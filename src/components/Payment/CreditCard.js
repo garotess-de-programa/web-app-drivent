@@ -36,6 +36,10 @@ export default function CreditCard({ payed, setPayed, token, ticketId, enrollmen
 
     const issuer = GetCardIssuer(number);
 
+    if (!issuer) {
+      issuer = 'VISA';
+    }
+
     const body = {
       ticketId: ticketId,
       cardData: {

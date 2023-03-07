@@ -6,9 +6,6 @@ import * as ticketApi from '../../services/ticketsApi';
 export default function useTicket() {
   const token = useToken();
 
-  const { data: tickets, act: getTickets } = useAsync(() => ticketApi.getChosenTicket(token), false);
-  return {
-    tickets,
-    getTickets
-  };
+  const { data: ticket } = useAsync(() => ticketApi.getChosenTicket(token));
+  return ticket;
 }

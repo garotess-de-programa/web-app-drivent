@@ -21,17 +21,13 @@ export async function getTicketById(token) {
   return response.data;
 }
 
-export async function getTicketTypes(token) {
-  const response = await api.get('/tickets/types', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function getTicketTypes() {
+  const response = await api.get('/tickets/types');
+
   return response.data;
 }
 
-export async function createTicket(ticketTypeId) {
-  const response = await api.post('/tickets', { ticketTypeId });
-
+export async function createTicket(body) {
+  const response = await api.post('/tickets', body);
   return response.data;
 }
