@@ -1,30 +1,10 @@
 import { useState } from 'react';
 import * as S from '../../components';
 
-const useSummary = (state) => {
-  let title;
-  let total;
-  if (state === 'Remote Ticket') {
-    title = 'Online';
-    total = 400;
-  } else {
-    if (state === 'With Hotel') {
-      title = 'Presencial + Hotel';
-      total = 1200;
-    } else {
-      title = 'Presencial s/ Hotel';
-      total = 800;
-    }
-  }
-  return {
-    title,
-    total,
-  };
-};
-
-export default function PaymentPage({ useTicket }) {
+export default function PaymentPage({ useTicket: { selected } }) {
   const [payed, setPayed] = useState(false);
-  const { title, total } = useSummary(useTicket.selected);
+  const title = translateTicketType[selected.name];
+  const { price } = selected;
 
   return (
     <>
@@ -34,27 +14,41 @@ export default function PaymentPage({ useTicket }) {
         <S.SummaryBox>
           <h1>{title}</h1>
           <br />
-          <h2>R$ {total}</h2>
+          <h2>R$ {price}</h2>
         </S.SummaryBox>
       </div>
 
-      {payed ? (
-        <S.PaymentConfirmationWrapper>
-          <S.SubtitleTypography>Ingresso escolhido</S.SubtitleTypography>
-          <S.ContainerPaymentConfirmation>
-            <S.FaCheckCircleStyled />
-            <div className="text">
-              <h1>Pagamento confirmado!</h1>
-              <br />
-              <h2>Prossiga para escolha de hospedagem e atividades</h2>
-            </div>
-          </S.ContainerPaymentConfirmation>
-        </S.PaymentConfirmationWrapper>
-      ) : (
-        <S.CreditCardWrapper>
-          <S.CreditCard setPayed={setPayed} ticketId={useTicket.selected.id} />
-        </S.CreditCardWrapper>
-      )}
+      {payed ? <PaymentCompleted /> : <PaymentInProgress id={selected.id} set={setPayed} />}
     </>
+  );
+}
+
+const translateTicketType = {
+  'Remote Ticket': 'Online',
+  'Presencial With Hotel Ticket': 'Presencial + Hotel',
+  'Presencial Without Hotel Ticket': 'Presencial s/ Hotel',
+};
+
+function PaymentCompleted() {
+  return (
+    <S.PaymentConfirmationWrapper>
+      <S.SubtitleTypography>Ingresso escolhido</S.SubtitleTypography>
+      <S.ContainerPaymentConfirmation>
+        <S.FaCheckCircleStyled />
+        <div className="text">
+          <h1>Pagamento confirmado!</h1>
+          <br />
+          <h2>Prossiga para escolha de hospedagem e atividades</h2>
+        </div>
+      </S.ContainerPaymentConfirmation>
+    </S.PaymentConfirmationWrapper>
+  );
+}
+
+function PaymentInProgress({ id, set }) {
+  return (
+    <S.CreditCardWrapper>
+      <S.CreditCard setPayed={set} ticketId={id} />
+    </S.CreditCardWrapper>
   );
 }
