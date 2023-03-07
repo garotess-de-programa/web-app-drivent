@@ -11,7 +11,7 @@ function getIcons(capacity) {
   return icons;
 }
 
-export default function RoomPage({ room }) {
+export function RoomPage({ room }) {
   const icons = getIcons(room.capacity);
 
   return (

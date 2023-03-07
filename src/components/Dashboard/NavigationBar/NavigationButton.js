@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default function NavigationButton({ active, children }) {
+export function NavigationButton({ active, children }) {
   return <Button active={active}>{children}</Button>;
 }
 

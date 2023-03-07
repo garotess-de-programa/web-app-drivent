@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import EventInfoContext from '../../contexts/EventInfoContext';
 
-import NavigationBar from '../../components/Dashboard/NavigationBar';
+import { NavigationBar } from '../../components';
 
 import DashboardLayout from '../../layouts/Dashboard';
 

@@ -4,10 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import AuthLayout from '../../layouts/Auth';
 
-import Input from '../../components/Form/Input';
-import Button from '../../components/Form/Button';
-import { Row, Title, Label } from '../../components/Auth';
-import Link from '../../components/Link';
+import { Button, Input, Row, Title, Label, ContainerLink } from '../../components';
 
 import EventInfoContext from '../../contexts/EventInfoContext';
 
@@ -70,7 +67,7 @@ export default function Enroll() {
         </form>
       </Row>
       <Row>
-        <Link to="/sign-in">Já está inscrito? Faça login</Link>
+        <ContainerLink to="/sign-in">Já está inscrito? Faça login</ContainerLink>
       </Row>
     </AuthLayout>
   );

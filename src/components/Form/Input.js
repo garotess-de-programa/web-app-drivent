@@ -2,7 +2,7 @@ import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
 
-export default function Input({
+export function Input({
   mask = '',
   maskChar = '',
   formatChars,

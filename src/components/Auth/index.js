@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import Container from '../Container';
 
-export const StyledContainer = styled(Container)`
+export const AuthLayout = styled(Container)`
   font-size: 16px;
   flex-direction: column;
   align-items: center;

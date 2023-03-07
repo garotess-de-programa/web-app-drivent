@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Timer from './Timer';
-import Page from '../../components/Page';
+import { Page } from '../../components/Page';
 
 import useIsDateAfter from '../../hooks/useIsDateAfter';
 

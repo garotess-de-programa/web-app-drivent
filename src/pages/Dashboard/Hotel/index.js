@@ -1,21 +1,19 @@
 import { useState } from 'react';
 import * as S from '../../../components/Typography';
 import useHotel from '../../../hooks/api/useHotel';
-import ContentUnavailable from '../../../components/Page/Unavailable';
+import { UnavailablePage, HotelPage as Hotel, RoomPage } from '../../../components';
 import styled from 'styled-components';
-import Hotel from '../../../components/Hotel';
 
 import { useRooms } from '../../../hooks/api/useRooms';
-import RoomPage from '../../../components/Hotel/Room';
 
-function Page(props) {
+export function Page(props) {
   return (
     <>
-      <S.StyledTypography variant="h4">Escolha de hotel e quarto</S.StyledTypography>
+      <S.StyledTypography variant="h4">{props.title}</S.StyledTypography>
       {props.error ? (
-        <ContentUnavailable>
+        <UnavailablePage>
           <S.StyledTypography variant="h6" {...props} />
-        </ContentUnavailable>
+        </UnavailablePage>
       ) : (
         <>{props.children}</>
       )}
@@ -31,10 +29,18 @@ export default function HotelPage() {
   const { mutation } = useRooms(setSelect, setRooms);
 
   if (hotelsLoading) {
-    return <Page error={true}>Carregando</Page>;
+    return (
+      <Page error={true} title="Escolha de hotel e quarto">
+        Carregando...
+      </Page>
+    );
   }
   if (hotelsError) {
-    return <Page error={true}>{hotelsError.message}</Page>;
+    return (
+      <Page error={true} title="Escolha de hotel e quarto">
+        {hotelsError.message}
+      </Page>
+    );
   }
 
   return (
