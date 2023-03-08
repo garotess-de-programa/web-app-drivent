@@ -2,10 +2,10 @@ import { useState } from 'react';
 import * as S from '../../components';
 import { CreditCard } from '../../components';
 
-export default function PaymentPage({ useTicket: { selected } }) {
-  const [payed, setPayed] = useState(false);
-  const title = translateTicketType[selected.name];
-  const { price } = selected;
+export default function PaymentPage({ ticket }) {
+  const [payed, setPayed] = useState(ticket?.status === 'PAID');
+  const title = translateTicketType[ticket?.TicketType?.name] || translateTicketType[ticket?.name];
+  const price = ticket?.TicketType?.price || ticket?.price;
 
   return (
     <>
@@ -19,7 +19,7 @@ export default function PaymentPage({ useTicket: { selected } }) {
         </S.SummaryBox>
       </div>
 
-      {payed ? <PaymentCompleted /> : <PaymentInProgress id={selected.id} set={setPayed} />}
+      {payed ? <PaymentCompleted /> : <PaymentInProgress id={ticket.id} set={setPayed} />}
     </>
   );
 }
