@@ -5,19 +5,8 @@ export async function checkEnrollment() {
 
   return response.data;
 }
-
-export async function getChosenTicket(token) {
+export async function getTicketById() {
   const response = await api.get('/tickets');
-
-  return response.data;
-}
-
-export async function getTicketById(token) {
-  const response = await api.get('/tickets', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
   return response.data;
 }
 

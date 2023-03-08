@@ -1,13 +1,23 @@
-import * as S from '../../components';
+import { useEffect } from 'react';
+import useCreateTicket from '../../hooks/api/useCreateTicket';
 
-const TypeLodging = {
-  false: 'Without Hotel',
-  true: 'With Hotel',
-};
+import * as S from '../../components';
 
 export default function TicketPage({ tickets, useTicket, setConfirmation }) {
   const { state, toggleType, selected } = useTicket;
-  console.log({ selected });
+  const { createdTicket, createTicketLoading, createTicketAct } = useCreateTicket();
+
+  const handleSubmit = async () => {
+    await createTicketAct({ ticketTypeId: selected.id });
+  };
+
+  useEffect(() => {
+    if (createdTicket && createdTicket.ticketTypeId === selected.id) {
+      selected.reservedTicket = createdTicket;
+      setConfirmation((state) => !state);
+    }
+  }, [createdTicket]);
+
   return (
     <>
       <S.StyledTypography variant="h4">Ingresso e pagamento</S.StyledTypography>
@@ -40,7 +50,7 @@ export default function TicketPage({ tickets, useTicket, setConfirmation }) {
                 onClick={() => toggleType('Lodging', TypeLodging[ticketType.includesHotel])}
               >
                 <h1>{ticketType.name}</h1>
-                <h2>R$ {ticketType.price}</h2>
+                <h2>R$ {ticketType.price - tickets?.remote?.[0].price}</h2>
               </S.ContainerTicket>
             ))}
           </S.TicketTypeWrapper>
@@ -49,27 +59,16 @@ export default function TicketPage({ tickets, useTicket, setConfirmation }) {
 
       {selected && (
         <S.ConfirmationWrapper>
-          <h1>Fechado! O total ficou em R$ XXX. Agora é só confirmar:</h1>
-          <S.BookButton onClick={() => setConfirmation((state) => !state)}>Reservar ingresso</S.BookButton>
+          <h1>Fechado! O total ficou em R$ {selected.price}. Agora é só confirmar:</h1>
+          <S.BookButton disabled={createTicketLoading} onClick={handleSubmit}>
+            Reservar ingresso
+          </S.BookButton>
         </S.ConfirmationWrapper>
       )}
     </>
   );
 }
-
-// const bla = () => (
-//   <S.BookButton
-//     onClick={() => {
-//       HandleBookTicket(
-//         token1,
-//         ticketPresential,
-//         ticketOnline,
-//         ticketWithoutHotel,
-//         ticketWithHotel,
-//         enrollment,
-//         setConfirmation,
-//         setTicketId
-//       );
-//     }}
-//   ></S.BookButton>
-// );
+const TypeLodging = {
+  false: 'Without Hotel',
+  true: 'With Hotel',
+};

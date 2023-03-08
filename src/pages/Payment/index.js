@@ -1,22 +1,28 @@
 import { useState } from 'react';
+
 import useEnrollment from '../../hooks/api/useEnrollment';
 import useTicketTypes from '../../hooks/api/useTicketType';
+import useTicketForPayment from '../../hooks/api/useTicketForPayment';
+import useHandleTicket from '../../hooks/useHandleTicket';
+
 import { Page } from '../Dashboard/Hotel';
 import TicketPage from './TicketPage';
 import PaymentPage from './PaymentPage';
-import useHandleTicket from '../../hooks/useHandleTicket';
 
 export default function Payment() {
   const { ticketTypes, ticketTypesLoading, ticketTypesError } = useTicketTypes();
+  const { ticket, ticketLoading } = useTicketForPayment();
+  const useTicket = useHandleTicket(ticketTypes);
   const { enrollment } = useEnrollment();
-  const useTicket = useHandleTicket();
 
   const [confirmation, setConfirmation] = useState(false);
+  const ticketAlreadyReserved = ticket?.enrollmentId === enrollment?.id;
+  const loadingOrError = ticketTypesLoading || ticketTypesError || !enrollment || ticketLoading;
 
-  if (ticketTypesLoading || ticketTypesError || !enrollment) {
+  if (loadingOrError) {
     return (
       <Page error={'true'} title="Ingresso e pagamento">
-        {ticketTypesLoading && 'Carregando...'}
+        {(ticketTypesLoading || ticketLoading) && 'Carregando...'}
         {ticketTypesError && 'Algum erro aconteceu'}
         {!enrollment && 'Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso'}
       </Page>
@@ -28,8 +34,8 @@ export default function Payment() {
     presencial: ticketTypes.filter((t) => t.name !== 'Remote Ticket'),
   };
 
-  return confirmation ? (
-    <PaymentPage useTicket={useTicket} />
+  return confirmation || ticketAlreadyReserved ? (
+    <PaymentPage ticket={ticket || useTicket.selected} />
   ) : (
     <TicketPage tickets={ticketsTypes} useTicket={useTicket} setConfirmation={setConfirmation} />
   );
