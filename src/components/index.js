@@ -14,7 +14,6 @@ export * from './Payment/PaymentConfirmation';
 export * from './Payment/Summary';
 export * from './Payment/TicketType';
 export * from './PersonalInformationForm';
-export * from './TicketTypeSelection';
 export * from './Typography';
 export * from './Container';
 export * from './Link';
