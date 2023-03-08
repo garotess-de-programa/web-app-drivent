@@ -1,53 +1,40 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import React from 'react';
-import Cards from 'react-credit-cards';
-import 'react-credit-cards/es/styles-compiled.css';
+import Cards from 'react-credit-cards-2';
+import 'react-credit-cards-2/es/styles-compiled.css';
 import { toast } from 'react-toastify';
 import usePayment from '../../hooks/api/usePayment';
-import GetCardIssuer from './GetCardIssuer';
+import creditCardType from 'credit-card-type';
 
 export function CreditCard({ setPayed, ticketId }) {
-  const [number, setNumber] = useState('');
-  const [name, setName] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvc, setCvc] = useState('');
-  const [focused, setFocused] = useState('');
+  const [state, setState] = useState({
+    number: '',
+    expiry: '',
+    cvc: '',
+    name: '',
+    focus: '',
+  });
+  const [error, setError] = useState({
+    number: '',
+    expiry: '',
+    cvc: '',
+    name: '',
+  });
   const { createPayment } = usePayment();
 
-  function changeFocus(e) {
-    setFocused(e.target.name);
-  }
-
   async function handleForm() {
-    if (number.length !== 16) {
-      toast('O número do cartão de crédito não parece correto');
-      return;
-    } else if (name.length < 3) {
-      toast('O nome do cartão de crédito não parece correto');
-      return;
-    } else if (expiry.length < 4 || expiry.length > 6) {
-      toast('A data de expiração do cartão não parece correta');
-      return;
-    } else if (cvc.length !== 3) {
-      toast('O CVC do cartão não parece correto');
-      return;
-    }
-
-    const issuer = GetCardIssuer(number);
-
-    if (!issuer) {
-      issuer = 'VISA';
-    }
+    const [card] = creditCardType(state.number);
+    const issuer = card?.type;
 
     const body = {
       ticketId: ticketId,
       cardData: {
         issuer: issuer,
-        number: number,
-        name: name,
-        expirationDate: expiry,
-        cvv: cvc,
+        number: state.number,
+        name: state.name,
+        expirationDate: state.expiry,
+        cvv: state.cvc,
       },
     };
 
@@ -59,63 +46,95 @@ export function CreditCard({ setPayed, ticketId }) {
     }
   }
 
+  const handleInputChange = (evt) => {
+    const { name, value } = evt.target;
+
+    if (/^[0-9]+$/.test(value) || name === 'name') {
+      setError({});
+    } else {
+      setError((prev) => ({ ...prev, [name]: value }));
+    }
+
+    setState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleInputFocus = (evt) => {
+    setState((prev) => ({ ...prev, focus: evt.target.name }));
+  };
+
   return (
     <CardSession>
       <CardForm>
         <CreditCardContainer>
-          <Cards number={number} name={name} expiry={expiry} cvc={cvc} focused={focused} />
+          <Cards number={state.number} expiry={state.expiry} cvc={state.cvc} name={state.name} focused={state.focus} />
         </CreditCardContainer>
         <Form>
           <NumberInput
-            type="number"
+            error={error?.number}
+            type="text"
             name="number"
             placeholder="Card Number"
-            onChange={(e) => {
-              setNumber(e.target.value);
-            }}
-            onFocus={changeFocus}
+            value={state.number}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            minLength={16}
+            maxLength={16}
+            pattern="^[0-9]+$"
+            required
           />
+          {error?.number && <ErrorSpan>Por favor, insira apenas números.</ErrorSpan>}
           <h1>E.g.: 49...,51...,36...,37...</h1>
           <NameInput
+            error={error.name}
+            minLength={3}
             type="text"
             name="name"
             placeholder="Name"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            onFocus={changeFocus}
+            value={state.name}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            required
           />
           <Divisor>
-            <ValidateInput
-              type="number"
-              name="expiry"
-              placeholder="Valid Thru"
-              onChange={(e) => {
-                setExpiry(e.target.value);
-              }}
-              onFocus={changeFocus}
-            />
-            <CodeInput
-              type="number"
-              name="cvc"
-              placeholder="CVC"
-              onChange={(e) => {
-                setCvc(e.target.value);
-              }}
-              onFocus={changeFocus}
-            />
+            <div>
+              <ValidateInput
+                error={error?.expiry}
+                maxLength={6}
+                minLength={4}
+                pattern="^[0-9]+$"
+                type="text"
+                name="expiry"
+                placeholder="Valid Thru"
+                value={state.expiry}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                required
+              />
+              {error?.expiry && <ErrorSpan>Por favor, insira apenas números.</ErrorSpan>}
+            </div>
+
+            <CodeDiv>
+              <CodeInput
+                error={error?.cvc}
+                maxLength={3}
+                minLength={3}
+                pattern="^[0-9]+$"
+                type="text"
+                name="cvc"
+                placeholder="CVC"
+                value={state.cvc}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                required
+              />
+              {error?.cvc && <ErrorSpan>Por favor, insira apenas números.</ErrorSpan>}
+            </CodeDiv>
           </Divisor>
           <br />
         </Form>
       </CardForm>
       <FormButton>
-        <Button
-          onClick={() => {
-            handleForm();
-          }}
-        >
-          FINALIZAR PAGAMENTO
-        </Button>
+        <Button onClick={handleForm}>FINALIZAR PAGAMENTO</Button>
       </FormButton>
     </CardSession>
   );
@@ -161,6 +180,7 @@ const NumberInput = styled.input`
   height: 45px;
   width: 100%;
   border-radius: 5px;
+  border: 1px solid ${({ error }) => (error ? 'red' : '#000000')} !important;
 `;
 
 const NameInput = styled.input`
@@ -173,10 +193,20 @@ const NameInput = styled.input`
 
 const Divisor = styled.div`
   width: 100%;
-  height: 45px;
+  height: auto;
+  min-height: 45px;
 
   display: flex;
   justify-content: space-between;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const CodeDiv = styled.div`
+  align-items: flex-end;
 `;
 
 const ValidateInput = styled.input`
@@ -187,7 +217,7 @@ const ValidateInput = styled.input`
 
 const CodeInput = styled.input`
   height: 45px;
-  width: 30%;
+  width: 100px;
   border-radius: 5px;
 `;
 
@@ -216,4 +246,9 @@ export const CreditCardWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   margin: 24px 0px 0px 0px;
+`;
+
+export const ErrorSpan = styled.span`
+  margin-top: 4px;
+  color: red;
 `;
