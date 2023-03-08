@@ -16,7 +16,7 @@ export default function Payment() {
   const { enrollment } = useEnrollment();
 
   const [confirmation, setConfirmation] = useState(false);
-  const ticketAlreadyReserved = ticket?.enrollmentId === enrollment.id;
+  const ticketAlreadyReserved = ticket?.enrollmentId === enrollment?.id;
   const loadingOrError = ticketTypesLoading || ticketTypesError || !enrollment || ticketLoading;
 
   if (loadingOrError) {
