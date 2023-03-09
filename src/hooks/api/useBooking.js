@@ -1,19 +1,20 @@
 import useAsync from '../useAsync';
 import * as bookingApi from '../../services/bookingApi';
 
-export default function useBooking() {
-  const { data: bookings, loading: Loading, error: bookingsError } = useAsync(bookingApi.getBooking);
+export default function useBookingUser() {
+  const { data: bookingUser, loading: bookingUserLoading, error: bookingUserError, act: bookingUserAct } = useAsync(bookingApi.getBooking);
 
-  if (bookingsError) {
+  if (bookingUserError) {
     let message = 'Tivemos algum erro inexperado. Por favor, tente mais tarde';
-    if (bookingsError.response.status === 404) message = 'Reserva não encontrada!';
+    if (bookingUserError.response.status === 404) message = 'Reserva não encontrada!';
 
-    bookingsError.message = message;
+    bookingUserError.message = message;
   }
 
   return {
-    bookings,
-    Loading,
-    bookingsError,
+    bookingUser,
+    bookingUserLoading,
+    bookingUserError,
+    bookingUserAct,
   };
 }

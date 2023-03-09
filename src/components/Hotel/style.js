@@ -31,18 +31,39 @@ export const HotelWrapper = styled.div`
 `;
 
 export const HotelName = styled.span`
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  color: #343434;
 `;
 
 export const Subtitle = styled.p`
   margin-top: 10px;
   font-size: 14px;
-  width: 168px;
   font-weight: bold;
+  width: 168px;
+  color: #3c3c3c;
 `;
 
 export const Detail = styled(Subtitle)`
   margin-top: 4px;
   font-weight: normal;
+`;
+
+export const Button = styled.div`
+  display: ${({ show }) => (show ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+  width: 182px;
+  height: 37px;
+  background: #e0e0e0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  margin-top: 24px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  color: #000000;
 `;

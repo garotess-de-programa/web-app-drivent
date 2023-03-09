@@ -5,6 +5,7 @@ export function RoomPage({ room, setSelectRoom, selectedRoom }) {
   let peopleInRoom = room.Booking.length;
   const clickedRoom = room.id === selectedRoom;
   const icons = [];
+  let selectOneRoom = false;
 
   for (let i = 0; i < room.capacity; i++) {
     if (peopleInRoom) {
@@ -15,7 +16,8 @@ export function RoomPage({ room, setSelectRoom, selectedRoom }) {
       peopleInRoom--;
       continue;
     }
-    if (clickedRoom) {
+    if (clickedRoom && !selectOneRoom) {
+      selectOneRoom = true;
       icons.push({
         icon: <BsFillPersonFill color="#FF4791" size="30px" />,
         available: true,
