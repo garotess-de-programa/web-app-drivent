@@ -3,8 +3,10 @@ import * as S from '../../../components/Typography';
 import useHotel from '../../../hooks/api/useHotel';
 import { UnavailablePage, HotelPage as Hotel, RoomPage } from '../../../components';
 import styled from 'styled-components';
+import useBooking from '../../../hooks/api/useBooking';
 
 import { useRooms } from '../../../hooks/api/useRooms';
+import { BookingPage } from '../../../components/Hotel/Booking';
 
 export function Page(props) {
   return (
@@ -27,6 +29,7 @@ export default function HotelPage() {
 
   const { hotels, hotelsLoading, hotelsError } = useHotel();
   const { mutation } = useRooms(setSelect, setRooms);
+  const { bookings } = useBooking();
 
   if (hotelsLoading) {
     return (
@@ -39,6 +42,15 @@ export default function HotelPage() {
     return (
       <Page error={true} title="Escolha de hotel e quarto">
         {hotelsError.message}
+      </Page>
+    );
+  }
+
+  if (bookings) {
+    return (
+      <Page>
+        <S.SubtitleTypography variant="h5">Você já escolheu seu quarto:</S.SubtitleTypography>
+        <BookingPage />
       </Page>
     );
   }
