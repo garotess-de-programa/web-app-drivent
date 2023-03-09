@@ -5,6 +5,8 @@ import useHotel from '../../../hooks/api/useHotel';
 import { UnavailablePage, HotelPage as Hotel, RoomPage } from '../../../components';
 import styled from 'styled-components';
 import useBooking from '../../../hooks/api/useBooking';
+import useCreateBooking from '../../../hooks/api/useCreateBooking';
+import useChangeBooking from '../../../hooks/api/useChangeBooking';
 
 import { useRooms } from '../../../hooks/api/useRooms';
 import { BookingPage } from '../../../components/Hotel/Booking';
@@ -27,10 +29,14 @@ export function Page(props) {
 export default function HotelPage() {
   const [rooms, setRooms] = useState([]);
   const [selected, setSelect] = useState(0);
+  const [selectedRoom, setSelectRoom] = useState(0);
+  const [reservedRoom, setReservedRoom] = useState(false);
   const { hotels, hotelsLoading, hotelsError } = useHotel();
   const { mutation } = useRooms(setSelect, setRooms);
-  const { bookings } = useBooking();
-  const [booked, setBooked] = useState(false);
+
+  const { bookingUser, bookingUserAct } = useBooking();
+  const { createBookingAct } = useCreateBooking();
+  const { changeBookingAct } = useChangeBooking();
 
   if (hotelsLoading) {
     return (
@@ -47,14 +53,24 @@ export default function HotelPage() {
     );
   }
 
-  if (booked) {
+  if (bookingUser && reservedRoom) {
     return (
       <Page>
         <S.SubtitleTypography variant="h5">Você já escolheu seu quarto:</S.SubtitleTypography>
-        <BookingPage bookings={bookings} />
+        <BookingPage bookings={bookingUser} setReservedRoom={setReservedRoom} />
       </Page>
     );
   }
+
+  const reserveRoom = async () => {
+    if (bookingUser) {
+      await changeBookingAct({ bookingId: bookingUser.id, body: { roomId: selectedRoom } });
+    } else {
+      await createBookingAct({ roomId: selectedRoom });
+    }
+    await bookingUserAct();
+    setReservedRoom(true);
+  };
 
   return (
     <Page>
@@ -68,10 +84,13 @@ export default function HotelPage() {
         <S.SubtitleTypography variant="h5">Ótima opção! Agora escolha seu quarto.</S.SubtitleTypography>
         <Container show={!!rooms}>
           {rooms?.map((room) => (
-            <RoomPage room={room} />
+            <RoomPage room={room} setSelectRoom={setSelectRoom} selectedRoom={selectedRoom} />
           ))}
         </Container>
       </ContainerRooms>
+      <St.Button onClick={reserveRoom} show={selectedRoom !== 0}>
+        RESERVAR QUARTO
+      </St.Button>
     </Page>
   );
 }
