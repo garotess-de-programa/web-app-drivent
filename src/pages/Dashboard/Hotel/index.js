@@ -24,6 +24,7 @@ export function Page(props) {
 export default function HotelPage() {
   const [rooms, setRooms] = useState([]);
   const [selected, setSelect] = useState(0);
+  const [selectedRoom, setSelectRoom] = useState(0);
 
   const { hotels, hotelsLoading, hotelsError } = useHotel();
   const { mutation } = useRooms(setSelect, setRooms);
@@ -55,7 +56,7 @@ export default function HotelPage() {
         <S.SubtitleTypography variant="h5">Ótima opção! Agora escolha seu quarto.</S.SubtitleTypography>
         <Container show={!!rooms}>
           {rooms?.map((room) => (
-            <RoomPage room={room} />
+            <RoomPage room={room} setSelectRoom={setSelectRoom} selectedRoom={selectedRoom} />
           ))}
         </Container>
       </ContainerRooms>
