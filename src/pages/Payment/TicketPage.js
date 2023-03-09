@@ -29,12 +29,12 @@ export default function TicketPage({ tickets, useTicket, setConfirmation }) {
             selected={state.genre === 'Online'}
             onClick={() => toggleType('Genre', 'Remote')}
           >
-            <h1>{ticketType.name}</h1>
+            <h1>{ticketType.name === 'Remote Ticket' ? 'Online' : 'Presencial'}</h1>
             <h2>R$ {ticketType.price}</h2>
           </S.ContainerTicket>
         ))}
         <S.ContainerTicket selected={state.genre === 'Presencial'} onClick={() => toggleType('Genre', 'Presencial')}>
-          <h1>Presencial Ticket</h1>
+          <h1>Presencial</h1>
           <h2>R$ 400</h2>
         </S.ContainerTicket>
       </S.TicketTypeWrapper>
@@ -49,7 +49,7 @@ export default function TicketPage({ tickets, useTicket, setConfirmation }) {
                 key={ticketType.id}
                 onClick={() => toggleType('Lodging', TypeLodging[ticketType.includesHotel])}
               >
-                <h1>{ticketType.name}</h1>
+                <h1>{ticketType.name === 'Presencial With Hotel Ticket' ? 'Com Hotel' : 'Sem Hotel'}</h1>
                 <h2>R$ {ticketType.price - tickets?.remote?.[0].price}</h2>
               </S.ContainerTicket>
             ))}

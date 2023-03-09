@@ -26,6 +26,7 @@ export function CreditCard({ setPayed, ticketId }) {
   async function handleForm() {
     const [card] = creditCardType(state.number);
     const issuer = card?.type;
+    if (!issuer) return toast('Bandeira do cartão inválida');
 
     const body = {
       ticketId: ticketId,
@@ -173,18 +174,19 @@ const Form = styled.form`
     line-height: 16px;
     text-align: left;
     color: #898989;
+    margin-top: 4px;
   }
 `;
 
 const NumberInput = styled.input`
-  height: 45px;
+  height: 44px;
   width: 100%;
   border-radius: 5px;
-  border: 1px solid ${({ error }) => (error ? 'red' : '#000000')} !important;
+  border: 1px solid ${({ error }) => (error ? 'red' : 'default')} !important;
 `;
 
 const NameInput = styled.input`
-  height: 45px;
+  height: 44px;
   width: 100%;
 
   margin: 15px 0;
@@ -210,15 +212,17 @@ const CodeDiv = styled.div`
 `;
 
 const ValidateInput = styled.input`
-  height: 45px;
-  width: 65%;
+  height: 44px;
+  width: 90%;
   border-radius: 5px;
+  border: 1px solid ${({ error }) => (error ? 'red' : 'default')} !important;
 `;
 
 const CodeInput = styled.input`
-  height: 45px;
+  height: 44px;
   width: 100px;
   border-radius: 5px;
+  border: 1px solid ${({ error }) => (error ? 'red' : 'default')} !important;
 `;
 
 const Button = styled.div`
