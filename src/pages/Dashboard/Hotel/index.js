@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as S from '../../../components/Typography';
+import * as St from '../../../components/Hotel/style';
 import useHotel from '../../../hooks/api/useHotel';
 import { UnavailablePage, HotelPage as Hotel, RoomPage } from '../../../components';
 import styled from 'styled-components';
@@ -26,10 +27,10 @@ export function Page(props) {
 export default function HotelPage() {
   const [rooms, setRooms] = useState([]);
   const [selected, setSelect] = useState(0);
-
   const { hotels, hotelsLoading, hotelsError } = useHotel();
   const { mutation } = useRooms(setSelect, setRooms);
   const { bookings } = useBooking();
+  const [booked, setBooked] = useState(false);
 
   if (hotelsLoading) {
     return (
@@ -46,11 +47,11 @@ export default function HotelPage() {
     );
   }
 
-  if (bookings) {
+  if (booked) {
     return (
       <Page>
         <S.SubtitleTypography variant="h5">Você já escolheu seu quarto:</S.SubtitleTypography>
-        <BookingPage />
+        <BookingPage bookings={bookings} />
       </Page>
     );
   }
