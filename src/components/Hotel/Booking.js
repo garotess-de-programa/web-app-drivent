@@ -1,9 +1,8 @@
 import * as S from './style';
 
-export function BookingPage({ bookings }) {
+export function BookingPage({ bookings, setReservedRoom }) {
   const { Room } = bookings;
 
-  function changeRoom() {}
   return (
     <>
       <S.HotelWrapper clicked={true}>
@@ -13,16 +12,18 @@ export function BookingPage({ bookings }) {
           <>
             <S.Subtitle>Quarto reservado</S.Subtitle>
             <S.Detail>
-              {Room.name} ({RoomTypes[Room.capacity]})
+              {Room.id} ({RoomTypes[Room.capacity]})
             </S.Detail>
           </>
           <>
             <S.Subtitle>Pessoas no seu quarto</S.Subtitle>
-            <S.Detail>Somente você</S.Detail>
+            <S.Detail>{RoomCapacity[Room.Booking.length]}</S.Detail>
           </>
         </>
       </S.HotelWrapper>
-      <S.Button onClick={changeRoom}>TROCAR DE QUARTO</S.Button>
+      <S.Button onClick={() => setReservedRoom(false)} show={true}>
+        TROCAR DE QUARTO
+      </S.Button>
     </>
   );
 }
@@ -33,6 +34,8 @@ const RoomTypes = {
   3: 'Triple',
 };
 
-/*
-("Somente você", "Você e mais x pessoas")
-*/
+const RoomCapacity = {
+  1: 'Somente você',
+  2: 'Você e mais 1 pessoas',
+  3: 'Você e mais 2 pessoas',
+};

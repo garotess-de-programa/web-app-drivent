@@ -49,7 +49,7 @@ export const Detail = styled(Subtitle)`
 `;
 
 export const Button = styled.div`
-  display: flex;
+  display: ${({ show }) => (show ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   width: 182px;

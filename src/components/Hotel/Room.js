@@ -1,25 +1,55 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { BsFillPersonFill, BsPerson } from 'react-icons/bs';
 
-function getIcons(capacity) {
+export function RoomPage({ room, setSelectRoom, selectedRoom }) {
+  let peopleInRoom = room.Booking.length;
+  const clickedRoom = room.id === selectedRoom;
   const icons = [];
+  let selectOneRoom = false;
 
-  for (let i = 0; i < capacity; i++) {
-    icons.push(<BsPerson size="30px" />);
+  for (let i = 0; i < room.capacity; i++) {
+    if (peopleInRoom) {
+      icons.push({
+        icon: <BsFillPersonFill size="30px" />,
+        available: false,
+      });
+      peopleInRoom--;
+      continue;
+    }
+    if (clickedRoom && !selectOneRoom) {
+      selectOneRoom = true;
+      icons.push({
+        icon: <BsFillPersonFill color="#FF4791" size="30px" />,
+        available: true,
+      });
+    } else {
+      icons.push({
+        icon: <BsPerson color="black" size="30px" />,
+        available: true,
+      });
+    }
   }
 
-  return icons;
-}
+  icons.reverse();
 
-export function RoomPage({ room }) {
-  const icons = getIcons(room.capacity);
+  const availableRoom = !!icons.filter((i) => i.available).length;
+
+  const toggleSelected = () => {
+    setSelectRoom(() => {
+      if (clickedRoom) {
+        return null;
+      } else {
+        return room.id;
+      }
+    });
+  };
 
   return (
-    <Container key={room.id}>
+    <Container clicked={clickedRoom} key={room.id} available={availableRoom} onClick={toggleSelected}>
       <p>{room.id}</p>
       <div>
         {icons.map((icon, index) => (
-          <span key={index}>{icon}</span>
+          <span key={index}>{icon.icon}</span>
         ))}
       </div>
     </Container>
@@ -30,15 +60,27 @@ const Container = styled.div`
   width: 190px;
   height: 45px;
   border-radius: 10px;
-  border: 1px solid #cecece;
 
   display: flex;
   padding: 0 10px;
   justify-content: space-between;
   align-items: center;
 
-  background-color: ${({ clicked }) => (clicked ? '#FFEED2' : '#FFF')};
-  :hover {
-    background-color: ${({ clicked }) => (clicked ? '#FFE7C0' : '#FFEED2')};
-  }
+  ${(props) =>
+    props.available
+      ? css`
+          background-color: ${({ clicked }) => (clicked ? '#FFEED2' : '#FFF')};
+          background-color: 
+          :hover {
+            background-color: ${({ clicked }) => (clicked ? '#FFE7C0' : '#FFEED2')};
+          }
+          border: 1px solid #cecece;
+          cursor: pointer;
+        `
+      : css`
+          opacity: 70%;
+          background-color: #e7e7e7;
+          border: 1px solid #cecece;
+          pointer-events: none;
+        `}
 `;
