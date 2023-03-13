@@ -6,18 +6,18 @@ export function BookingPage({ bookings, setReservedRoom }) {
   return (
     <>
       <S.HotelWrapper clicked={true}>
-        <img src={Room.Hotel.image} alt={Room.Hotel.name} />
+        <img src={Room?.Hotel?.image} alt={Room?.Hotel?.name} />
         <>
-          <S.HotelName>{Room.Hotel.name}</S.HotelName>
+          <S.HotelName>{Room?.Hotel?.name}</S.HotelName>
           <>
             <S.Subtitle>Quarto reservado</S.Subtitle>
             <S.Detail>
-              {Room.id} ({RoomTypes[Room.capacity]})
+              {Room?.id} ({RoomTypes[Room?.capacity]})
             </S.Detail>
           </>
           <>
             <S.Subtitle>Pessoas no seu quarto</S.Subtitle>
-            <S.Detail>{RoomCapacity[Room.Booking.length]}</S.Detail>
+            <S.Detail>{RoomCapacity[Room?.Booking?.length]}</S.Detail>
           </>
         </>
       </S.HotelWrapper>
