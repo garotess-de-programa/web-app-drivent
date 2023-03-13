@@ -7,6 +7,7 @@ export async function getBooking() {
 }
 
 export async function createBooking(body) {
+  console.log({ body });
   const response = await api.post('/booking', body);
 
   return response.data;

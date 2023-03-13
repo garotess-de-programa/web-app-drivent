@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from '../../../components/Typography';
 import * as St from '../../../components/Hotel/style';
 import useHotel from '../../../hooks/api/useHotel';
@@ -17,7 +17,7 @@ export function Page(props) {
       <S.StyledTypography variant="h4">{props.title}</S.StyledTypography>
       {props.error ? (
         <UnavailablePage>
-          <S.StyledTypography variant="h6" {...props} />
+          <S.StyledTypography variant="h6">{props.children}</S.StyledTypography>
         </UnavailablePage>
       ) : (
         <>{props.children}</>
@@ -76,15 +76,15 @@ export default function HotelPage() {
     <Page>
       <S.SubtitleTypography variant="h5">Primeiro, escolha seu hotel</S.SubtitleTypography>
       <Container show={true}>
-        {hotels?.map((hotel) => (
-          <Hotel hotel={hotel} selected={selected} handleRooms={mutation.mutate} />
+        {hotels?.map((hotel, index) => (
+          <Hotel key={index} hotel={hotel} selected={selected} handleRooms={mutation.mutate} />
         ))}
       </Container>
       <ContainerRooms show={selected !== 0}>
         <S.SubtitleTypography variant="h5">Ótima opção! Agora escolha seu quarto.</S.SubtitleTypography>
         <Container show={!!rooms}>
-          {rooms?.map((room) => (
-            <RoomPage room={room} setSelectRoom={setSelectRoom} selectedRoom={selectedRoom} />
+          {rooms?.map((room, index) => (
+            <RoomPage key={index} room={room} setSelectRoom={setSelectRoom} selectedRoom={selectedRoom} />
           ))}
         </Container>
       </ContainerRooms>
