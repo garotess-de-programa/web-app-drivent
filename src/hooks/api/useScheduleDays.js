@@ -1,27 +1,28 @@
 import useAsync from '../useAsync';
 import * as activitiesApi from '../../services/activitiesApi';
 
-export default function useActivities(date) {
+export default function useScheduleDays() {
   const {
-    data: activities,
-    loading: activitiesLoading,
-    error: activitiesError,
-  } = useAsync(activitiesApi.getActivities(date));
-
-  if (activitiesError) {
+    data: scheduleDays,
+    loading: scheduleDaysLoading,
+    error: scheduleDaysError,
+  } = useAsync(activitiesApi.getScheduleDays);
+  
+  if (scheduleDaysError) {
     let message = 'Tivemos algum erro inexperado. Por favor, tente mais tarde';
-    if (activitiesError.response.status === 404)
+    if (scheduleDaysError.response.status === 404)
       message = 'Sua modalidade de ingresso não necessita escolher atividade. Você terá acesso a todas as atividades.';
-
-    if (activitiesError.response.status === 402)
+  
+    if (scheduleDaysError.response.status === 402)
       message = 'Você precisa ter confirmado pagamento antes de fazer a escolha de atividades';
-
-    activitiesError.message = message;
+  
+    scheduleDaysError.message = message;
   }
-
+  
   return {
-    activities,
-    activitiesLoading,
-    activitiesError,
+    scheduleDays,
+    scheduleDaysLoading,
+    scheduleDaysError,
   };
 }
+  
