@@ -11,3 +11,4 @@ export async function getScheduleDays() {
 
   return response.data;
 }
+

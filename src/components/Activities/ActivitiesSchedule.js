@@ -1,35 +1,29 @@
+import {  ActivityScheduleWrapper, HallTitle, HallSchedule } from './style';
 import ActivityCard from './ActivityCard';
-import { HallTitle, ActivityScheduleWrapper, HallTitleWrapper, HallSchedule, HallScheduleWrapper } from './style';
 
-export default function ActivitiesSchedule(date) {
-  //ActivitySchedule: usar o date para fazer um filter na tabela Activity
-  // Title: activity.name
-  // Time: activity.schedule.startTime(hh) e activity.schedule.endTime(hh)
-  // div size: activity.schedule.endTime(hh)-activity.schedule.startTime(hh)
-  //Capacity: hall.capacity - activity.seat.length     || if capacity = 0 'esgotado' e muda icone
-  
+export default function ActivitiesSchedule({ activities }) {
+  const groupByHalls = {};
+  activities.forEach((activity) => {
+    if (groupByHalls[activity.Hall.name]) {
+      const oldValues = groupByHalls[activity.Hall.name];
+      groupByHalls[activity.Hall.name] = [...oldValues, activity ];
+    } else {
+      groupByHalls[activity.Hall.name] = [activity];
+    }
+  });
+
   return (
-    <ActivityScheduleWrapper> 
-
-      <HallTitleWrapper>
-        <HallTitle>Auditório Principal</HallTitle>
-        <HallTitle>Auditório Lateral</HallTitle>
-        <HallTitle>Sala de Workshop</HallTitle>
-      </HallTitleWrapper>
-
-      <HallScheduleWrapper>
-        <HallSchedule>
-          <ActivityCard />
-        </HallSchedule>
-
-        <HallSchedule>  
-          <ActivityCard />
-        </HallSchedule>
-
-        <HallSchedule>
-          <ActivityCard />
-        </HallSchedule>
-      </HallScheduleWrapper>
+    <ActivityScheduleWrapper>
+      {Object.keys(groupByHalls).map((hallName) => (
+        <div key={hallName}>
+          <HallTitle>{hallName}</HallTitle>
+          <HallSchedule>
+            {groupByHalls[hallName].map((activity) => (
+              <ActivityCard  key={activity.id} activity={activity} name={activity.name}/>
+            ))}
+          </HallSchedule>
+        </div>
+      ))}
 
     </ActivityScheduleWrapper>
 

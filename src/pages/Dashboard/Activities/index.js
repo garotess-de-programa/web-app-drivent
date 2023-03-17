@@ -6,14 +6,18 @@ import { Page } from '../../../components/Page/Page';
 import DateButton from '../../../components/Activities/DateButton';
 import { DateButtonsWrapper } from '../../../components/Activities/style';
 import ActivitiesSchedule from '../../../components/Activities/ActivitiesSchedule';
-//const { activitiesLoading, activitiesError } = useActivities();
-//const loadingOrError = activitiesError || activitiesLoading;
 
 export default function ActivitiesPage() {
   const { scheduleDays, scheduleDaysLoading, scheduleDaysError } = useScheduleDays();
+  const { activities, activityAct } = useActivities();
   const loadingOrError = scheduleDaysError || scheduleDaysLoading;
-  const weekDays = ['Sexta', 'Sábado', 'Domingo'];
   const [selectedDate, setSelectedDate] = useState(null);
+
+  if(scheduleDays) {
+    scheduleDays.sort((a, b) => {
+      return new Date(a.day) - new Date(b.day);
+    });
+  }
 
   if (loadingOrError) {
     return (
@@ -24,16 +28,15 @@ export default function ActivitiesPage() {
     );
   }
 
-  function handleDate(day) {
-    console.log(day);
+  async function handleDate(day) {
+    await activityAct(day);
     setSelectedDate(day);
   }
-
-  // DateButton: recebemos tabela Schedule, fazemos um map/filter (não sei o que ainda kk) para filtrar as datas que tem eventos e colocar em um array de datas (??)
+  console.log(activities);
 
   return (
     <Page error={false} title="Escolha de atividades">
-      <S.SubtitleTypography>Primeiro, filtre pelo dia do evento:</S.SubtitleTypography>
+      {!activities && <S.SubtitleTypography>Primeiro, filtre pelo dia do evento:</S.SubtitleTypography>}
       <DateButtonsWrapper>
         {scheduleDays?.map((date, index) => (
           <DateButton
@@ -41,11 +44,10 @@ export default function ActivitiesPage() {
             date={date}
             handleDate={handleDate}
             selected={selectedDate}
-            weekDay={weekDays[index]}
           />
         ))}
       </DateButtonsWrapper>
-      <ActivitiesSchedule date={0} />
+      {activities && <ActivitiesSchedule activities={activities} />}
     </Page>
   );
 }

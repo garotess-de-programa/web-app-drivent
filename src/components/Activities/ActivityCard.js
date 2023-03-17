@@ -1,18 +1,28 @@
-import { ActivityCardWrapper, IoEnterOutlineStyled, Time, Capacity, Title, ActivityInfoWrapper, CapacityWrapper  } from './style';
+import { ActivityCardWrapper, IoEnterOutlineStyled, AiOutlineCloseCircleStyled, Time, Capacity, Title, ActivityInfoWrapper, CapacityWrapper  } from './style';
 
-export default function ActivityCard() {
+export default function ActivityCard({ activity }) {
+  const seats = activity.Hall.capacity - activity.Seat.length;
+  const [startDatePart, startTimePart] = activity.Schedule.startTime.split('T');
+  const [startHour, startMinute, ] = startTimePart.split(':');
+  const [endDatePart, endTimePart] = activity.Schedule.endTime.split('T');
+  const [endHour, endMinute, ] = endTimePart.split(':');
+  const eventTime = endHour - startHour;
+
+  console.log('tempo da atividade',  typeof eventTime);
+
   return(
-    <ActivityCardWrapper>
+    <ActivityCardWrapper eventTime={Number(eventTime)}>
 
       <ActivityInfoWrapper>
-        <Title>Minecraft: montando o PC ideal</Title>
-        <Time>9:00 - 10:00</Time>
+        <Title>{activity.name}</Title>
+        <Time>{startHour}:{startMinute} - {endHour}:{endMinute}</Time>
       </ActivityInfoWrapper>
-      <CapacityWrapper>
-        <IoEnterOutlineStyled/>
-        <Capacity>30 vagas</Capacity>
-      </CapacityWrapper>
+     
+      {seats === 0 ? (<CapacityWrapper> <AiOutlineCloseCircleStyled/>
+        <Capacity full={seats===0}>Esgotado</Capacity>       </CapacityWrapper>):(      <CapacityWrapper> <IoEnterOutlineStyled/>
+        <Capacity>{seats} vagas</Capacity>       </CapacityWrapper>)}
 
     </ActivityCardWrapper>
   );
 }
+
