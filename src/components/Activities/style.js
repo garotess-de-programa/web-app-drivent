@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { IoEnterOutline } from 'react-icons/io5';
-import { AiOutlineCloseCircle } from 'react-icons/ai'; 
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 export const Button = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const Button = styled.div`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   margin-right: 16px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 
   font-family: 'Roboto';
   font-style: normal;
@@ -26,17 +26,17 @@ export const Button = styled.div`
 `;
 
 export const DateButtonsWrapper = styled.div`
-  display:flex;
+  display: flex;
   margin-bottom: 65px;
   flex-wrap: wrap;
 `;
 
 export const ActivityScheduleWrapper = styled.div`
-//display: flex;
-//flex-wrap: wrap;
-border: 10px;
-//border-color: #D7D7D7;
-border-color: red;
+  //display: flex;
+  //flex-wrap: wrap;
+  border: 10px;
+  //border-color: #D7D7D7;
+  border-color: red;
 `;
 
 export const ActivityCardWrapper = styled.div`
@@ -48,9 +48,9 @@ export const ActivityCardWrapper = styled.div`
   height: 79px;
   padding: 0px 10px;
   background: #e0e0e0;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.20);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 
   font-family: 'Roboto';
   font-style: normal;
@@ -119,22 +119,22 @@ export const HallSchedule = styled.div`
 
 export const HallTitleWrapper = styled.div`
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   align-items: center;
   justify-content: space-around;
   margin-bottom: 7px;
 `;
 
 export const HallScheduleWrapper = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: wrap;
 `;
 
 export const ActivityInfoWrapper = styled.div`
   display: flex;
   height: 60px;
-  flex-direction:column;
-  align-items:flex-start;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
 `;
 
@@ -142,7 +142,7 @@ export const CapacityWrapper = styled.div`
   height: 60px;
   width: 60px;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   border-left: 1px solid #cfcfcf;
