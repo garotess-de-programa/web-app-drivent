@@ -1,12 +1,13 @@
 import useAsync from '../useAsync';
 import * as activitiesApi from '../../services/activitiesApi';
 
-export default function useActivities(date) {
+export default function useActivities() {
   const {
     data: activities,
     loading: activitiesLoading,
     error: activitiesError,
-  } = useAsync(activitiesApi.getActivities(date));
+    act: activityAct
+  } = useAsync(activitiesApi.getActivities, false);
 
   if (activitiesError) {
     let message = 'Tivemos algum erro inexperado. Por favor, tente mais tarde';
@@ -23,5 +24,6 @@ export default function useActivities(date) {
     activities,
     activitiesLoading,
     activitiesError,
+    activityAct
   };
 }
