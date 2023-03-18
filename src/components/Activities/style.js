@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { IoEnterOutline } from 'react-icons/io5';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { AiOutlineCloseCircle, AiOutlineCheckCircle } from 'react-icons/ai';
 
 export const Button = styled.div`
   display: flex;
@@ -35,8 +35,6 @@ export const ActivityScheduleWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   border: 10px;
-  //border-color: #D7D7D7;
-  border-color: red;
 `;
 
 export const ActivityCardWrapper = styled.div`
@@ -62,14 +60,22 @@ export const ActivityCardWrapper = styled.div`
   color: #000000;
 `;
 
+export const AiOutlineCheckCircleStyled = styled(AiOutlineCheckCircle)`
+  color: green;
+  font-size: 22px;
+  margin-bottom: 5px;
+`;
+
 export const IoEnterOutlineStyled = styled(IoEnterOutline)`
   color: green;
   font-size: 22px;
+  margin-bottom: 5px;
 `;
 
 export const AiOutlineCloseCircleStyled = styled(AiOutlineCloseCircle)`
   color: red;
   font-size: 22px;
+  margin-bottom: 5px;
 `;
 
 export const HallTitle = styled.div`

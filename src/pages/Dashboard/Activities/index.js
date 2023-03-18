@@ -15,6 +15,7 @@ export default function ActivitiesPage() {
   const loadingOrError = scheduleDaysError || scheduleDaysLoading;
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedActivity, setSelectedActivity] = useState(null);
+  const [reservedActivity, setReservedActivity] = useState(null);
 
   if (scheduleDays) {
     scheduleDays.sort((a, b) => {
@@ -39,6 +40,7 @@ export default function ActivitiesPage() {
   async function handleActivity(activityId) {
     setSelectedActivity(activityId);
     await reserveActivityAct({ activityId });
+    setReservedActivity(activityId);
   }
 
   return (
@@ -50,7 +52,7 @@ export default function ActivitiesPage() {
         ))}
       </DateButtonsWrapper>
       {activities && (
-        <ActivitiesSchedule activities={activities} selected={selectedActivity} handleActivity={handleActivity} />
+        <ActivitiesSchedule activities={activities} selected={selectedActivity} handleActivity={handleActivity} reserved={reservedActivity}/>
       )}
     </Page>
   );
