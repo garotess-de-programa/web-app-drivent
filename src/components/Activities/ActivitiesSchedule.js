@@ -1,12 +1,12 @@
-import {  ActivityScheduleWrapper, HallTitle, HallSchedule } from './style';
+import { ActivityScheduleWrapper, HallTitle, HallSchedule } from './style';
 import ActivityCard from './ActivityCard';
 
-export default function ActivitiesSchedule({ activities }) {
+export default function ActivitiesSchedule({ activities, selected, handleActivity, reserved }) {
   const groupByHalls = {};
   activities.forEach((activity) => {
     if (groupByHalls[activity.Hall.name]) {
       const oldValues = groupByHalls[activity.Hall.name];
-      groupByHalls[activity.Hall.name] = [...oldValues, activity ];
+      groupByHalls[activity.Hall.name] = [...oldValues, activity];
     } else {
       groupByHalls[activity.Hall.name] = [activity];
     }
@@ -19,13 +19,17 @@ export default function ActivitiesSchedule({ activities }) {
           <HallTitle>{hallName}</HallTitle>
           <HallSchedule>
             {groupByHalls[hallName].map((activity) => (
-              <ActivityCard  key={activity.id} activity={activity} name={activity.name}/>
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                selected={selected}
+                reserved={reserved}
+                handleActivity={handleActivity}
+              />
             ))}
           </HallSchedule>
         </div>
       ))}
-
     </ActivityScheduleWrapper>
-
   );
 }

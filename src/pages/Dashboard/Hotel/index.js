@@ -55,7 +55,7 @@ export default function HotelPage() {
 
   if (bookingUser && reservedRoom) {
     return (
-      <Page>
+      <Page title="Escolha de hotel e quarto">
         <S.SubtitleTypography variant="h5">Você já escolheu seu quarto:</S.SubtitleTypography>
         <BookingPage bookings={bookingUser} setReservedRoom={setReservedRoom} />
       </Page>
@@ -73,7 +73,7 @@ export default function HotelPage() {
   };
 
   return (
-    <Page>
+    <Page title="Escolha de hotel e quarto">
       <S.SubtitleTypography variant="h5">Primeiro, escolha seu hotel</S.SubtitleTypography>
       <Container show={true}>
         {hotels?.map((hotel, index) => (
