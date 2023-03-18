@@ -12,3 +12,9 @@ export async function getScheduleDays() {
   return response.data;
 }
 
+export async function reserveActivity(body) {
+  console.log({ body });
+  const response = await api.post('/activities', body);
+
+  return response.data;
+}
