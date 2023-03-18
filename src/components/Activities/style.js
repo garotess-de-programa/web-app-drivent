@@ -46,9 +46,9 @@ export const ActivityCardWrapper = styled.div`
   align-items: center;
   margin-bottom: 11px;
   width: 265px;
-  height: ${ props => `calc(${props.eventTime} * 79px)`}; 
+  height: ${(props) => `calc(${props.eventTime} * 79px)`};
   padding: 0px 10px;
-  background: #e0e0e0;
+  background: ${({ clicked }) => (clicked ? '#D0FFDB' : '#e0e0e0')};
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   margin-bottom: 5px;
@@ -78,8 +78,8 @@ export const HallTitle = styled.div`
   font-weight: 400;
   font-size: 17px;
   color: #7b7b7b;
-  text-align:center;
-  margin-bottom:13px;
+  text-align: center;
+  margin-bottom: 13px;
 `;
 
 export const Title = styled.div`
@@ -107,7 +107,7 @@ export const Capacity = styled.div`
   font-weight: 400;
   font-size: 9px;
   line-height: 10px;
-  color:  ${({ full }) => (full ? '#CC6666' : '#078632')};
+  color: ${({ full }) => (full ? '#CC6666' : '#078632')};
 `;
 
 export const HallSchedule = styled.div`
@@ -142,7 +142,7 @@ export const ActivityInfoWrapper = styled.div`
 `;
 
 export const CapacityWrapper = styled.div`
-  height: 60px;
+  height: 75%;
   width: 60px;
   display: flex;
   flex-direction: column;
