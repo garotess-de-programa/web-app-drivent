@@ -46,7 +46,7 @@ export const ActivityCardWrapper = styled.div`
   width: 265px;
   height: ${(props) => `calc(${props.eventTime} * 79px)`};
   padding: 0px 10px;
-  background: ${({ clicked }) => (clicked ? '#D0FFDB' : '#e0e0e0')};
+  background: ${({ reserved, userSeat }) => (reserved || userSeat > 0 ? '#D0FFDB' : '#e0e0e0')};
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   margin-bottom: 5px;
@@ -58,7 +58,7 @@ export const ActivityCardWrapper = styled.div`
   line-height: 16px;
   text-align: center;
   color: #000000;
-`;
+`; 
 
 export const AiOutlineCheckCircleStyled = styled(AiOutlineCheckCircle)`
   color: green;

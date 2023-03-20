@@ -1,7 +1,7 @@
 import { ActivityScheduleWrapper, HallTitle, HallSchedule } from './style';
 import ActivityCard from './ActivityCard';
 
-export default function ActivitiesSchedule({ activities, selected, handleActivity, reserved }) {
+export default function ActivitiesSchedule({ activities, selected, handleActivity, reserved, userId }) {
   const groupByHalls = {};
   activities.forEach((activity) => {
     if (groupByHalls[activity.Hall.name]) {
@@ -25,6 +25,7 @@ export default function ActivitiesSchedule({ activities, selected, handleActivit
                 selected={selected}
                 reserved={reserved}
                 handleActivity={handleActivity}
+                userId={userId}
               />
             ))}
           </HallSchedule>
