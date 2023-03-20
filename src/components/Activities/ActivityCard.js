@@ -10,19 +10,22 @@ import {
   CapacityWrapper,
 } from './style';
 
-export default function ActivityCard({ activity, selected, handleActivity, reserved }) {
+export default function ActivityCard({ activity, selected, handleActivity, reserved, userId }) {
   const seats = activity.Hall.capacity - activity.Seat.length;
   const [startDatePart, startTimePart] = activity.Schedule.startTime.split('T');
   const [startHour, startMinute] = startTimePart.split(':');
   const [endDatePart, endTimePart] = activity.Schedule.endTime.split('T');
   const [endHour, endMinute] = endTimePart.split(':');
   const eventTime = endHour - startHour;
+  const userSeat = activity.Seat.filter((s) => s.userId === userId );
 
   return (
     <ActivityCardWrapper
       eventTime={Number(eventTime)}
       onClick={() => handleActivity(activity.id)}
       clicked={selected === activity.id}
+      reserved = {reserved}
+      userSeat = {userSeat.length}
     >
       <ActivityInfoWrapper>
         <Title>{activity.name}</Title>
@@ -36,7 +39,7 @@ export default function ActivityCard({ activity, selected, handleActivity, reser
           <AiOutlineCloseCircleStyled />
           <Capacity full={seats === 0}>Esgotado</Capacity>
         </CapacityWrapper>
-      ) : reserved ? (
+      ) : reserved || userSeat.length > 0 ? (
         <CapacityWrapper>
           <AiOutlineCheckCircleStyled />
           <Capacity>Inscrito</Capacity>
@@ -50,3 +53,4 @@ export default function ActivityCard({ activity, selected, handleActivity, reser
     </ActivityCardWrapper>
   );
 }
+

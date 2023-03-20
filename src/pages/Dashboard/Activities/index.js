@@ -1,5 +1,6 @@
 import * as S from '../../../components/Typography';
 import { useState } from 'react';
+import useUserId from '../../../hooks/userUserId';
 import useActivities from '../../../hooks/api/useActivities';
 import useScheduleDays from '../../../hooks/api/useScheduleDays';
 import useReserveAtivity from '../../../hooks/api/useReserveActivity';
@@ -16,6 +17,7 @@ export default function ActivitiesPage() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [reservedActivity, setReservedActivity] = useState(null);
+  const userId = useUserId();
 
   if (scheduleDays) {
     scheduleDays.sort((a, b) => {
@@ -52,7 +54,7 @@ export default function ActivitiesPage() {
         ))}
       </DateButtonsWrapper>
       {activities && (
-        <ActivitiesSchedule activities={activities} selected={selectedActivity} handleActivity={handleActivity} reserved={reservedActivity}/>
+        <ActivitiesSchedule activities={activities} selected={selectedActivity} handleActivity={handleActivity} reserved={reservedActivity} userId={userId}/>
       )}
     </Page>
   );
