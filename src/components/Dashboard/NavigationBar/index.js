@@ -37,7 +37,7 @@ export function NavigationBar() {
       </Link>
 
       <Link to="/dashboard/activities">
-        <NavigationButton active={isActive('/dashboard/activitie')}>
+        <NavigationButton active={isActive('/dashboard/activities')}>
           <FaCalendarWeek />
           <span>Atividades</span>
         </NavigationButton>
