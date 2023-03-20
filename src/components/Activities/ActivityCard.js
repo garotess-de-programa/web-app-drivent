@@ -8,7 +8,6 @@ export default function ActivityCard({ activity, selected, handleActivity, reser
   const notHaveAvailableSeats = seats === 0;
   const userAlreadySubscribed = !reserved && userSeat.length > 0;
   const canSubscribe = reserved;
-  console.log({ reserved });
 
   return (
     <S.ActivityCardWrapper
