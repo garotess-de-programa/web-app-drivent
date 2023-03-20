@@ -1,56 +1,66 @@
-import {
-  ActivityCardWrapper,
-  IoEnterOutlineStyled,
-  AiOutlineCloseCircleStyled,
-  AiOutlineCheckCircleStyled,
-  Time,
-  Capacity,
-  Title,
-  ActivityInfoWrapper,
-  CapacityWrapper,
-} from './style';
+import * as S from './style';
 
 export default function ActivityCard({ activity, selected, handleActivity, reserved, userId }) {
+  const { startHour, endHour, startMinute, endMinute, eventTime } = useTime(activity);
   const seats = activity.Hall.capacity - activity.Seat.length;
-  const [startDatePart, startTimePart] = activity.Schedule.startTime.split('T');
-  const [startHour, startMinute] = startTimePart.split(':');
-  const [endDatePart, endTimePart] = activity.Schedule.endTime.split('T');
-  const [endHour, endMinute] = endTimePart.split(':');
-  const eventTime = endHour - startHour;
-  const userSeat = activity.Seat.filter((s) => s.userId === userId );
+  const userSeat = activity.Seat.filter((s) => s.userId === userId);
+
+  const notHaveAvailableSeats = seats === 0;
+  const userAlreadySubscribed = !reserved && userSeat.length > 0;
+  const canSubscribe = reserved;
+  console.log({ reserved });
 
   return (
-    <ActivityCardWrapper
+    <S.ActivityCardWrapper
       eventTime={Number(eventTime)}
       onClick={() => handleActivity(activity.id)}
       clicked={selected === activity.id}
-      reserved = {reserved}
-      userSeat = {userSeat.length}
+      reserved={reserved}
+      userSeat={userSeat.length}
     >
-      <ActivityInfoWrapper>
-        <Title>{activity.name}</Title>
-        <Time>
+      <S.ActivityInfoWrapper>
+        <S.Title>{activity.name}</S.Title>
+        <S.Time>
           {startHour}:{startMinute} - {endHour}:{endMinute}
-        </Time>
-      </ActivityInfoWrapper>
+        </S.Time>
+      </S.ActivityInfoWrapper>
 
-      {seats === 0 ? (
-        <CapacityWrapper>
-          <AiOutlineCloseCircleStyled />
-          <Capacity full={seats === 0}>Esgotado</Capacity>
-        </CapacityWrapper>
-      ) : reserved || userSeat.length > 0 ? (
-        <CapacityWrapper>
-          <AiOutlineCheckCircleStyled />
-          <Capacity>Inscrito</Capacity>
-        </CapacityWrapper>
-      ) : (
-        <CapacityWrapper>
-          <IoEnterOutlineStyled />
-          <Capacity>{seats} vagas</Capacity>
-        </CapacityWrapper>
-      )}
-    </ActivityCardWrapper>
+      <S.CapacityWrapper>
+        {notHaveAvailableSeats && (
+          <>
+            <S.AiOutlineCloseCircleStyled />
+            <S.Capacity full={notHaveAvailableSeats}>Esgotado</S.Capacity>
+          </>
+        )}
+        {userAlreadySubscribed && (
+          <>
+            <S.AiOutlineCheckCircleStyled />
+            <S.Capacity>Inscrito</S.Capacity>
+          </>
+        )}
+        {canSubscribe && (
+          <>
+            <S.IoEnterOutlineStyled />
+            <S.Capacity>{seats} vagas</S.Capacity>
+          </>
+        )}
+      </S.CapacityWrapper>
+    </S.ActivityCardWrapper>
   );
 }
 
+function useTime(activity) {
+  const [, startTimePart] = activity.Schedule.startTime.split('T');
+  const [startHour, startMinute] = startTimePart.split(':');
+  const [, endTimePart] = activity.Schedule.endTime.split('T');
+  const [endHour, endMinute] = endTimePart.split(':');
+  const eventTime = endHour - startHour;
+
+  return {
+    startHour,
+    endHour,
+    startMinute,
+    endMinute,
+    eventTime,
+  };
+}
