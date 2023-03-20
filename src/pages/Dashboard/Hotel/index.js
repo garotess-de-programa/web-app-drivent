@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as S from '../../../components/Typography';
 import * as St from '../../../components/Hotel/style';
 import useHotel from '../../../hooks/api/useHotel';
